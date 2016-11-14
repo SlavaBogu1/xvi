@@ -1,0 +1,28 @@
+<?php
+    defined('_XVI') or die('Engine is not initialized properly'.__FILE__);
+	/**
+	 @addtogroup sites
+         @{
+         @brief I_WATCH
+	 This is configuration file for I_WATCH site
+	 this file declare site-specific constants and can override global ones.
+         */
+	
+	/**
+	 GLOBAL override
+        */
+	
+	/**
+	 SITE constants   
+        */
+	define('TEPLATE_NAME',"default.html");
+	define('SITE_DIR',"IW/");        
+	define('DB_CONFIG',SITES_CFG_PATH.SITE_DIR."db_config.php");
+    
+        /**
+         * DEFAULT_SITE_ROOT_PAGE - record in the DB where the root page is located;
+         */
+        define('DEFAULT_SITE_ROOT_PAGE',"root");
+        
+/*@}*/
+?>

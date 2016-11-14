@@ -1,0 +1,36 @@
+<?php
+    defined('_XVI') or die('Engine is not initialized properly'.__FILE__);
+	/**
+	 @addtogroup sites
+         @{
+	 @brief SITE_1
+         This is configuration file for SITE_1 site
+	 this file declare site-specific constants and can override global ones.
+	*/
+	
+	/**
+	 GLOBAL override
+	*/
+	
+	/**
+          @section site_const SITE constants
+         * this set of constants identify all important PATH and parameters to configure this particular domain (site)
+         * TEPLATE_NAME - default page layout
+	*/
+	define('TEPLATE_NAME',"site_1_template.html");
+        /**
+         * SITE_DIR - subfolder where all site-specific files are stored
+         */
+	define('SITE_DIR',"SITE_1_CFG/");
+        /**
+         * DB_CONFIG - configuration file with DB table names and access parameters
+         */
+	define('DB_CONFIG',SITES_CFG_PATH.SITE_DIR."db_config.php");
+        
+        /**
+         * DEFAULT_SITE_ROOT_PAGE - record in the DB where the root page is located;
+         */
+        define('DEFAULT_SITE_ROOT_PAGE',"test");
+        
+/*@}*/
+?>
