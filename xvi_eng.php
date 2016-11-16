@@ -67,7 +67,7 @@
   /**
  @brief	Load ALL engine files
 */
-  require_once(_XVI."xvi_fl.php");
+  require_once(_XVI."xvi_fl.php");  
 
  /**
   @todo This is FOR_FUTURE to implement HTTP header
@@ -230,26 +230,27 @@ class cXVI_engine{
             }
             $this->content = $data['CONTENT'][0];
             if(is_null($this->content)) {
-                $this->content = "Нет такого поля <br>";
+                $this->content = array("PH_DEMO" => "test", "PH_BODY"=>"test");
             }
         }
         
         public function UpdateTemplate(){
-            $this->ext_modules = cXVI_Modules::getInstance();  
             $res = $this->template->getHTML_Template();
 
             foreach($this->content as $ph=>$replace_str){
                 $res = str_replace(OPEN_PATTERN_SIGN.$ph.CLOSE_PATTERN_SIGN, $replace_str, $res);
             }
-            $this->html = RemovePlaceholders($res);
+            
+            $res = $this->ProcessPlaceholders($res); //call list of external modules to update rest of PH 
+            
+            $this->html = RemovePlaceholders($res); //if there are some PH left - remove them
             
         }
         
-/**OLD ->*/  
-        public function ProcessPlaceholders(){
-            $res = $this->ext_modules->ReplacePatterns();
+        public function ProcessPlaceholders($html_template){
+            $this->ext_modules = cXVI_Modules::getInstance();  
+            return $this->ext_modules->ReplacePatterns($html_template);
         }
-/** -> OLD */       
         
         public function Show(){
             echo $this->html;

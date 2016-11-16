@@ -8,8 +8,9 @@ defined('_XVI') or die('Engine is not initialized properly'.__FILE__);
 
 define('XVI_MODULE_QUEUE_KEY','module_queue'); 
 
-/** @todo  Как удалять ненужные записи из DB json ?
- *  @todo  Как проверять, что priority в нужном диапазоне, чтобы не возникло класса, который не будет вызываться (если приоритет больше, чем число записей, например)?
+/** 
+ * @todo  Как удалять ненужные записи из DB json ?
+ * @todo  Как проверять, что priority в нужном диапазоне, чтобы не возникло класса, который не будет вызываться (если приоритет больше, чем число записей, например)?
  */
 class cXVI_Modules {
     private static $_instance;
@@ -152,13 +153,45 @@ class cXVI_Modules {
          */
         return $pattern;
     }
+
+     /**
+    # @brief New pattern parsing function
+    # @details Get the list of PH supported by engine from DB and associated modules
+      * Find the PH in the $html text.
+      * If match exist - replace by calling module CallBack
+      * If match doesn't exist - fetch next PH
+    */
+    public function ReplacePatterns($html){
+        foreach ($this->module_queue as $ph =>$arr_val){
+            $ph_pos = strpos($html,OPEN_PATTERN_SIGN.$ph.CLOSE_PATTERN_SIGN);
+          
+            if (!($ph_pos===false)) {
+                $module_res = "";
+                // PH found
+                // $arr_id - is the number of modules registered to this PH
+                // $arr_val - is actually the json record  "class" - "name"  and "priority" -> "number"
+                foreach($this->module_queue[$ph] as $arr_id =>$arr_val) {
+/*                    $html .= "<br> Class ".$arr_val["class"]."<br>";
+                    $html .= "<br> Priority ".$arr_val["priority"]."<br>";*/
+                    $class_name = $arr_val["class"];
+                    $module_res .= $class_name::Call($ph);                    
+                }
+                //$module_res collect all data for this ph
+                $html = str_replace(OPEN_PATTERN_SIGN.$ph.CLOSE_PATTERN_SIGN, $module_res, $html);
+                    
+            } else {
+                // PH not found
+                // do nothing ... may be log ..
+            }
+        }
+        return $html;
+    }
     
     /**
     # @brief New pattern parsing engine
     # @details call the old engine to keep site up-n-running
     */
-    public function ReplacePatterns(){
-        $html = cXVI_Template::getHTML_Template();
+    public function ReplacePatternsOld($html){
         
         do {
             /** @bug This doesn't work as required. 

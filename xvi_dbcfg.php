@@ -17,7 +17,6 @@ defined('_XVI') or die('Engine is not initialized properly'.__FILE__);
 */
 define('XVI_DBE_NAME', 'xvi_engine');
 define('XVI_DBE_USER', 'xvi_user');
-define('XVI_DBE_PWD', 'password');  //@TODO update password
 define('XVI_DBE_TABLE', 'eng_config');
 
 /**
@@ -27,7 +26,6 @@ define('XVI_DBE_TABLE', 'eng_config');
 */
 define('XVI_DBS_NAME', 'xvi_sites');
 define('XVI_DBS_USER', 'xvi_user');
-define('XVI_DBS_PWD', 'password'); //@TODO update password
 define('XVI_DBS_TABLE', 'def_config');
 
 define('DBE_KEY', 'cfgkey');

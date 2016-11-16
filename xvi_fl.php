@@ -16,7 +16,7 @@
  This file contain engine-wide parameters. 
 */
         require_once(_XVI."xvi_config.php"); 
-  
+        require_once(_XVI."passwords.php"); 
   /**
  @section common Common functions
  Load generic functions. 
