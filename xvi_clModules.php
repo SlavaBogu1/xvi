@@ -80,6 +80,7 @@ class cXVI_Modules {
                         if (class_exists($class_name, false)) {
                             if ($this->module_queue_availabe) {
                                 $this->Update_queue($class_name);  //  Check list of PH in Register function and add class to module_queue is not exists
+                                $class_name::getInstance();
                                 /**
                                  * @todo function Update_queue return false in case of problem with key update. neet ot handle this.
                                  */

@@ -77,7 +77,7 @@
  */
 
 /**
-  @brief Creade object of main engine class	
+  @brief Create object of main engine class	
 */
     $site_inst = cXVI_engine::getInstance();	
 

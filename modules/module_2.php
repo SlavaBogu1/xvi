@@ -4,6 +4,7 @@
  */
 class module_2 extends cXVI_AbsModule{
     private static $_instance;
+    private static $xvi_api;
 
     /** Generate JSON description of this class and provide to module_queue for processing.
      *    For each PH there can be the only single array with class name.
@@ -38,6 +39,7 @@ EOF;
     
     function __construct(){
         self::Register();
+        $xvi_api =xvi_API::getInstance();
     }
     /*  function __destruct(){ } */
     private function __clone(){ }    

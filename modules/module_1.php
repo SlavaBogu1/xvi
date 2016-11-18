@@ -7,6 +7,7 @@
 
 class module_1 extends cXVI_AbsModule{
     private static $_instance;
+    private static $xvi_api;
     private $html_processing;
 
     /** Generate JSON description of this class and provide to module_queue for processing.
@@ -56,8 +57,7 @@ EOF;
     }   
     
     function __construct(){
-        //$this->$site_instance = cXVI_engine::getInstance();
-        //$this->Register();
+        self::$xvi_api =xvi_API::getInstance();
     }
     /*  function __destruct(){ } */
     private function __clone(){ }    
@@ -79,8 +79,8 @@ EOF;
    }
     
     private function PH_Demo(){
-        $request = cXVI_Request::getInstance();
-        $res = "<p> The incoming request address is:".$request->GetAddrStr()."</p>";
+        $request_ip_addr =self::$xvi_api->GetRequestAddr();
+        $res = "<p> The incoming request address is:".$request_ip_addr."</p>";
         return $res;
     }
     
