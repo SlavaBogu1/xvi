@@ -132,7 +132,7 @@ class cXVI_ServerReq {
 
             // domain name
             $this->server_URL = filter_input( INPUT_SERVER, 'HTTP_HOST',  FILTER_SANITIZE_URL);
-
+           
             // URL query string (URL parameters after "?")
             $this->query_str = filter_input( INPUT_SERVER, 'QUERY_STRING',  FILTER_SANITIZE_URL);
             
@@ -143,13 +143,17 @@ class cXVI_ServerReq {
             //$url = 'http://username:password@hostname/path?arg=value#anchor';
             //print_r(parse_url($url));
             //echo parse_url($url,PHP_URL_QUERY);
-            $serv_scheme = filter_input( INPUT_SERVER, 'REQUEST_SCHEME',  FILTER_SANITIZE_URL);
-            $this->complete_URL = $serv_scheme.'://'.$this->server_URL.$this->client_request_str_org;
-            $this->request_path =  trim(parse_url($serv_scheme.'://'.$this->server_URL.$this->client_request_str,PHP_URL_PATH),"/");
+           
+            if (isset($_SERVER['HTTPS']) &&  ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+                $serv_scheme = 'https://';  
+            } else {
+                $serv_scheme = 'http://';
+            }
+            $this->complete_URL = $serv_scheme.$this->server_URL.$this->client_request_str_org;
+            $this->request_path =  trim(parse_url($serv_scheme.$this->server_URL.$this->client_request_str,PHP_URL_PATH),"/");
 
             // get request timestamp sting in format for log 
             $this->query_time_str = $this->ParseRequestDateTime();		
-                
         }
         
         private function TrimScriptName($addr_str){

@@ -39,7 +39,7 @@ defined('DBS_TABLE') or eval('define(DBS_TABLE,XVI_DBS_TABLE);');
         private static $_instance;
         private $eng_db, $sites_db, $content_db;
 
-        private function __construct($k,$v){
+        private function __construct(){
             $this->eng_db = cXVI_db_eng::getInstance();
             $this->sites_db = cXVI_db_sites::getInstance();
             $this->content_db = cXVI_db_content::getInstance();

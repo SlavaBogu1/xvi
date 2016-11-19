@@ -13,12 +13,25 @@
             $this->key_name = $k;
             $this->val_name = $v;
             
-            $this->db = new mysqli("localhost", $dbusr, $dbpwd, $dbname);
-            if ($this->db->connect_errno) {
-                    GenHTTPHeader(403,mysqli_connect_errno());
-                    exit(0);
-            }
+            // tell mysqli to throw exceptions:
+            mysqli_report(MYSQLI_REPORT_STRICT);
             
+            try {
+                $this->db = new mysqli("localhost", $dbusr, $dbpwd, $dbname);
+            } catch (Exception $e ) {
+                echo "Sorry, Service is unavailable now";
+                // @todo report error to log
+                //echo "message: " . $e->message;
+                exit(0);
+            }       
+
+/*            // for some reason this doesn't stop at hosting. So better to just exit    
+            if ($this->db->connect_errno) {
+                //GenHTTPHeader(403,mysqli_connect_errno());
+                exit(0);
+            }
+  */          
+     
             /** @brief Fix the issue with Cyrillic charset 
              *   without this query return "????"             
             $this->QueryDB("SET character_set_client = utf8");
@@ -66,15 +79,15 @@
         */
         protected  function ReadDBKey($table,$key){
                 $q = "SELECT * FROM `".$table."` WHERE `".$this->key_name."` = '$key' LIMIT 1";		
-
+                
                 /**  DB read key error processing */
                 if (!$res = $this->db->query($q)) {
                     /**
                         @todo deal with Query error, generate run-time warning
-                    */			
+                    */	
                     if (isset($res)){
                         $res->free();
-                        $res->close();			
+                        //$res->close();			
                     }
                     return false;
                 }	
@@ -95,8 +108,8 @@
 
                 if ($res->num_rows == 0) {
                         if (isset($res)){
-                                $res->free();
-                                $res->close();			
+                                //$res->free();
+                                //$res->close();			
                         }
                         /**
                          * $key." - key not found";

@@ -152,6 +152,7 @@ class cXVI_engine{
 
         private function __construct(){	
                 $this->html = "";
+		mysqli_report(MYSQLI_REPORT_STRICT);
                 $this->gen_db = cXVI_db::getInstance();	// Init DB interface to read configuration data
         }		
 
@@ -224,6 +225,7 @@ class cXVI_engine{
             } 
             
             $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
+     
             $this->page_options =$data['OPTIONS'][0];
             if(is_null($this->page_options)) {
                 $this->page_options = ""; // @TODO Defaul page options
