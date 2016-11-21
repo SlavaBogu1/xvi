@@ -15,6 +15,7 @@ class w2w_ph_module extends cXVI_AbsModule{
 {
 "W2W_CSS": [{ "class":"w2w_ph_module", "priority":"0" }],
 "PH_SITE_HEADER": [{ "class":"w2w_ph_module", "priority":"0" }],
+"SITE_FOOTER": [{ "class":"w2w_ph_module", "priority":"0" }],
 "CONTENT_MAIN_XLINKS": [{ "class":"w2w_ph_module", "priority":"0" }],
 "TEST_EMPTY": [{ "class":"module_1", "priority":"0" }]
 }
@@ -30,6 +31,8 @@ EOF;
                     return self::PH_Clear();
                 case 'PH_SITE_HEADER':
                     return self::PH_SiteHeader();
+                case 'SITE_FOOTER':                    
+                    return self::PH_SiteFooter();
                 case 'CONTENT_MAIN_XLINKS':
                     return self::PH_SiteCrossLinks();
                 default:
@@ -94,6 +97,22 @@ EOF;
 EOF;
         return $res;
     }
+
+    private function PH_SiteFooter(){
+        //generate list of cross-site references to other pages
+    $res =<<<EOF
+    <div id="footer"> 
+            <a href="#">Lorem</a> |
+            <a href="#">Ipsum</a> |
+            <a href="#">Dolor</a> |
+            <a href="#">Sit amet</a> |
+            <a href="#">Aliquip</a> 
+    </div> 
+EOF;
+        return $res;
+    }
+
+    
  
 }
 
