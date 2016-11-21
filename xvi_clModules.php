@@ -1,5 +1,7 @@
 <?php
   /** @file xvi_clModules.php  
+   * @todo надо проверять что внешние модули, указанные в module_queue существуют на момент вызова. Иначе ProcessPlaceholders будт падать.
+   * 
    *    Load external modules and initialize the pattern processing queue
     \addtogroup Modules
     @{
