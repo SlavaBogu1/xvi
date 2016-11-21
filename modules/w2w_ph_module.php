@@ -2,7 +2,7 @@
 /** External module example #2 
  *  Engine loading the class (same name as file name) and call three static functions (extends cXVI_AbsModule)
  */
-class module_2 extends cXVI_AbsModule{
+class w2w_ph_module extends cXVI_AbsModule{
     private static $_instance;
     private static $xvi_api;
 
@@ -11,31 +11,25 @@ class module_2 extends cXVI_AbsModule{
      *    Priority is ignored here and shall set to 0.
      */
     public static function Register() {
-        $module_2_queue_json =<<< EOF
+        $module_queue_json =<<< EOF
 {
-"TEST_EMPTY": [{ "class":"module_2", "priority":"0" }],
-"PH_DEMO": [{ "class":"module_2", "priority":"0" }]
+"W2W_CSS": [{ "class":"w2w_ph_module", "priority":"0" }],
+"TEST_EMPTY": [{ "class":"module_1", "priority":"0" }]
 }
 EOF;
-        return $module_2_queue_json;        
+        return $module_queue_json;        
     }
     
     public static function Call($placeholder_id) {
             switch ($placeholder_id) {
+                case 'W2W_CSS':
+                    return self::PH_CSS();
                 case 'TEST_EMPTY':
-                    return self::PH_TestEmpty();
-                case 'PH_DEMO':
-                    return self::PH_Demo();
+                    return self::PH_Clear();
                 default:
                     return self::PH_Clear();
             }
     }
-    
-    private function Parse(&$content,$pattern){
-	$tpl = OPEN_PATTERN_SIGN.$pattern.CLOSE_PATTERN_SIGN;
-	$repl = "test class";
-	return str_replace($tpl, $repl, $content);
-    }   
     
     function __construct(){
         self::Register();
@@ -49,20 +43,18 @@ EOF;
         }
         return self::$_instance;
     }
-      
-    /** Replace unknown placeholder by empty string
+    
+    /** 
+     * @brief Replace unknown placeholder by empty string
+     *  this is default function, don't delete it
      */
     private function PH_Clear(){
         return "";
     }
-    
-    private function PH_TestEmpty(){
-        return "Empty test at module_2.php";
-    }
-    private function PH_Demo(){
-        return "<br> Demo test at module_2.php <br>";
-    }
- 
+
+    private function PH_CSS(){
+        return "<link rel=\"stylesheet\" href=\"/".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
+     }
  
 }
 

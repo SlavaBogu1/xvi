@@ -63,6 +63,7 @@
  Inlined pattern processing
  Load external files and initialize the processing queue
 */
+        require_once (_XVI."xvi_API.php");
 	require_once(_XVI."xvi_clModules.php");
 
 	
@@ -98,6 +99,6 @@
  TODO
 */
 	require_once(_XVI."xvi_images.php");
-
-	
+    
+	require_once (_XVI."xvi_mail.php");
 ?>

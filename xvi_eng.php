@@ -77,7 +77,7 @@
  */
 
 /**
-  @brief Creade object of main engine class	
+  @brief Create object of main engine class	
 */
     $site_inst = cXVI_engine::getInstance();	
 
@@ -128,7 +128,6 @@
 
     //echo "<br> Memory usage: ".(memory_get_usage() - $script_memory )."<br>";
     //echo "Memory peak usage: ".memory_get_peak_usage()."<br>";
-
     exit(0);
 /* END OF ENGINE */
 
@@ -152,6 +151,7 @@ class cXVI_engine{
 
         private function __construct(){	
                 $this->html = "";
+		mysqli_report(MYSQLI_REPORT_STRICT);
                 $this->gen_db = cXVI_db::getInstance();	// Init DB interface to read configuration data
         }		
 
@@ -198,14 +198,14 @@ class cXVI_engine{
             /**                
               @brief TEPLATE_NAME is the HTML template name. If it is not defined then engine will use default.
             */
-            if ($this->page_options["template"]=="default") {
+            if ($this->page_options['template']=='default') {
                 /// @cond ALL
                 // see xvi_clDB.php comments        
                 defined('TEPLATE_NAME') or eval('define(TEPLATE_NAME,"default.html");');
                 /// @endcond            
                 $template_name = TEPLATE_PATH.TEPLATE_NAME;
             } else {
-                $template_name = TEPLATE_PATH.$this->page_options["template"];
+                $template_name = TEPLATE_PATH.$this->page_options['template'];
             }
             $this->template = cXVI_Template::getInstance($template_name);
         }
@@ -224,6 +224,7 @@ class cXVI_engine{
             } 
             
             $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
+     
             $this->page_options =$data['OPTIONS'][0];
             if(is_null($this->page_options)) {
                 $this->page_options = ""; // @TODO Defaul page options

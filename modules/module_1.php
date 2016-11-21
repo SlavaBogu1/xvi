@@ -7,6 +7,7 @@
 
 class module_1 extends cXVI_AbsModule{
     private static $_instance;
+    private static $xvi_api;
     private $html_processing;
 
     /** Generate JSON description of this class and provide to module_queue for processing.
@@ -24,6 +25,7 @@ class module_1 extends cXVI_AbsModule{
 "PH_LANG": [{ "class":"module_1", "priority":"0" }],
 "PH_HEAD": [{ "class":"module_1", "priority":"0" }],
 "PH_TITLE": [{ "class":"module_1", "priority":"0" }],
+"PH_GA_ID": [{ "class":"module_1", "priority":"0" }],
 "PH_META": [{ "class":"module_1", "priority":"0" }]
 }
 EOF;
@@ -31,22 +33,24 @@ EOF;
     }
     public static function Call($placeholder_id) {
             switch ($placeholder_id) {
-                case TEST_EMPTY:
+                case 'TEST_EMPTY':
                     return self::PH_TestEmpty();
-                case PH_DEMO:
+                case 'PH_DEMO':
                     return self::PH_Demo();
-                case PH_BODY:
+                case 'PH_BODY':
                     return self::PH_Body();
-                case PH_DOCTYPE:
+                case 'PH_DOCTYPE':
                     return self::PH_Doctype();
-                case PH_LANG:
+                case 'PH_LANG':
                     return self::PH_Language();
-                case PH_META:
+                case 'PH_META':
                     return self::PH_Meta();
-                case PH_HEAD:
+                case 'PH_HEAD':
                     return self::PH_Head();
-                case PH_TITLE:
+                case 'PH_TITLE':
                     return self::PH_Title();
+                case 'PH_GA_ID':
+                    return self::PH_GoogleID();
                 default:
                     return self::PH_Clear();
             }
@@ -56,8 +60,7 @@ EOF;
     }   
     
     function __construct(){
-        //$this->$site_instance = cXVI_engine::getInstance();
-        //$this->Register();
+        self::$xvi_api =xvi_API::getInstance();
     }
     /*  function __destruct(){ } */
     private function __clone(){ }    
@@ -79,8 +82,8 @@ EOF;
    }
     
     private function PH_Demo(){
-        $request = cXVI_Request::getInstance();
-        $res = "<p> The incoming request address is:".$request->GetAddrStr()."</p>";
+        $request_ip_addr =self::$xvi_api->GetRequestAddr();
+        $res = "<p> The incoming request address is:".$request_ip_addr."</p>";
         return $res;
     }
     
@@ -123,6 +126,23 @@ EOF;
     }
     private function PH_Title(){
         return "XVI default page";
+    }
+    
+    
+    private function PH_GoogleID(){
+        $res =<<< EOF
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-60066112-1', 'auto');
+  ga('send', 'pageview');
+      
+    </script>
+EOF;
+    return $res;
     }
     
  } // end of class module_1

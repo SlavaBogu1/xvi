@@ -82,6 +82,7 @@ class cXVI_Modules {
                         if (class_exists($class_name, false)) {
                             if ($this->module_queue_availabe) {
                                 $this->Update_queue($class_name);  //  Check list of PH in Register function and add class to module_queue is not exists
+                                $class_name::getInstance();
                                 /**
                                  * @todo function Update_queue return false in case of problem with key update. neet ot handle this.
                                  */
@@ -173,8 +174,10 @@ class cXVI_Modules {
                 // $arr_id - is the number of modules registered to this PH
                 // $arr_val - is actually the json record  "class" - "name"  and "priority" -> "number"
                 foreach($this->module_queue[$ph] as $arr_id =>$arr_val) {
-/*                    $html .= "<br> Class ".$arr_val["class"]."<br>";
-                    $html .= "<br> Priority ".$arr_val["priority"]."<br>";*/
+                    /**
+                     * @TODO Need to add warning is class_name is wrong. 
+                     * Otherwise it is hard to debug.
+                     */
                     $class_name = $arr_val["class"];
                     $module_res .= $class_name::Call($ph);                    
                 }

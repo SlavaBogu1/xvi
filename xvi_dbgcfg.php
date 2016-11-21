@@ -10,7 +10,7 @@ defined('DEBUG_MODE_ON') or define('DEBUG_MODE_ON',false); //if not set - debug 
  
   if (DEBUG_MODE_ON) {	//DEBUG_MODE is ON         
     #PATH1
-	define('FIREBUG_PATH',"../engine/fb/");
+	define('FIREBUG_PATH',_XVI."fb/");
 	
 	##
 	# @brief Enable FirePHP remote debugging for specific IP address

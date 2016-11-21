@@ -14,15 +14,15 @@ if (defined('DB_CONFIG')) { require_once(DB_CONFIG);}	// load site variable
 // DOXYGEN got confused with braces below. 
 // exclude from processing be /cond option. 
 // In the doxyfile need to change ENABLED_SEC to ALL or SOME to include/exclude these lines
-defined('DBE_NAME') or eval('define(DBE_NAME,XVI_DBE_NAME);');	
-defined('DBE_PSW') or eval('define(DBE_PSW,XVI_DBE_PWD);');         
-defined('DBE_USER') or eval('define(DBE_USER,XVI_DBE_USER);');
-defined('DBE_TABLE') or eval('define(DBE_TABLE,XVI_DBE_TABLE);');	
+defined('DBE_NAME') or eval('define(\'DBE_NAME\',XVI_DBE_NAME);');	
+defined('DBE_PSW') or eval('define(\'DBE_PSW\',XVI_DBE_PWD);');         
+defined('DBE_USER') or eval('define(\'DBE_USER\',XVI_DBE_USER);');
+defined('DBE_TABLE') or eval('define(\'DBE_TABLE\',XVI_DBE_TABLE);');	
 
-defined('DBS_NAME') or eval('define(DBS_NAME,XVI_DBS_NAME);');	
-defined('DBS_PSW') or eval('define(DBS_PSW,XVI_DBS_PWD);');         
-defined('DBS_USER') or eval('define(DBS_USER,XVI_DBS_USER);');
-defined('DBS_TABLE') or eval('define(DBS_TABLE,XVI_DBS_TABLE);');	
+defined('DBS_NAME') or eval('define(\'DBS_NAME\',XVI_DBS_NAME);');	
+defined('DBS_PSW') or eval('define(\'DBS_PSW\',XVI_DBS_PWD);');         
+defined('DBS_USER') or eval('define(\'DBS_USER\',XVI_DBS_USER);');
+defined('DBS_TABLE') or eval('define(\'DBS_TABLE\',XVI_DBS_TABLE);');	
 /// @endcond
 
 /**
@@ -39,7 +39,7 @@ defined('DBS_TABLE') or eval('define(DBS_TABLE,XVI_DBS_TABLE);');
         private static $_instance;
         private $eng_db, $sites_db, $content_db;
 
-        private function __construct($k,$v){
+        private function __construct(){
             $this->eng_db = cXVI_db_eng::getInstance();
             $this->sites_db = cXVI_db_sites::getInstance();
             $this->content_db = cXVI_db_content::getInstance();
