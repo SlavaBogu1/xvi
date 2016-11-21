@@ -9,7 +9,7 @@
   @section intro_sec Introduction 
   XVI is the multi-site CMS engine.<br>
 
-  @version   0.16.04
+  @version   0.13.11
   @date      2016
   
   @section main_sec Main flow
@@ -55,14 +55,6 @@
   ln -s /var/www/engine/index.html /var/www/html/test.html
   @endcode
   
- * @todo Roadmap
- * - page redirect in htaccess - done
- * - page menu 
- * - latest news
- * - page editor
- * - authorization
- * - admin panel
- * 
   @subsection debug Debug with xdebug
   @sa http://stuporglue.org/setting-up-xdebug-with-netbeans-on-windows-with-a-remote-apache-server/comment-page-1/#comment-6507
 */
