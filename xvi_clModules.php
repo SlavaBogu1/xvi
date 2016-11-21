@@ -172,8 +172,10 @@ class cXVI_Modules {
                 // $arr_id - is the number of modules registered to this PH
                 // $arr_val - is actually the json record  "class" - "name"  and "priority" -> "number"
                 foreach($this->module_queue[$ph] as $arr_id =>$arr_val) {
-/*                    $html .= "<br> Class ".$arr_val["class"]."<br>";
-                    $html .= "<br> Priority ".$arr_val["priority"]."<br>";*/
+                    /**
+                     * @TODO Need to add warning is class_name is wrong. 
+                     * Otherwise it is hard to debug.
+                     */
                     $class_name = $arr_val["class"];
                     $module_res .= $class_name::Call($ph);                    
                 }

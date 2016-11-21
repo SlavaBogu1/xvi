@@ -21,7 +21,12 @@
         /**
          * SITE_DIR - subfolder where all site-specific files are stored
          */
-	define('SITE_DIR',"SITE_1_CFG/");
+	define('SITE_DIR',"W2W_CFG/");
+        /**
+         * PUBLIC_HTML - path to site html folder
+         */
+	define('PUBLIC_HTML',"what_to_watch");
+
         /**
          * DB_CONFIG - configuration file with DB table names and access parameters
          */
@@ -30,7 +35,7 @@
         /**
          * DEFAULT_SITE_ROOT_PAGE - record in the DB where the root page is located;
          */
-        define('DEFAULT_SITE_ROOT_PAGE',"test");
+        define('DEFAULT_SITE_ROOT_PAGE',"root");
         
 /*@}*/
 ?>

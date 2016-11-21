@@ -99,17 +99,19 @@
                         $cfg_val = $res->fetch_row(); 
                         $keyvalue = $cfg_val[2];
 
-                        if (isset($res)){
+                        /*if (isset($res)){
                                 $res->free();
                                 $res->close();			
-                        }
+                        }*/
+                        mysqli_free_result($res);
                         return $keyvalue;
                 }
 
                 if ($res->num_rows == 0) {
                         if (isset($res)){
                                 //$res->free();
-                                //$res->close();			
+                                //$res->close();	
+                            mysqli_free_result($res);                            
                         }
                         /**
                          * $key." - key not found";
@@ -125,11 +127,12 @@
                 if ($res->num_rows > 1) {			
                         while ($cfg_val = $res->fetch_row()) { 
                                 $keyvalue = $cfg_val[2];
-                        }			
+                        }
+                        mysqli_free_result($res);
                 }                 	
 
-                $res->free();
-                $res->close();
+                /*$res->free();
+                $res->close();*/
                 return $keyvalue;
         }                
         

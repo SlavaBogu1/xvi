@@ -99,6 +99,6 @@
  TODO
 */
 	require_once(_XVI."xvi_images.php");
-
-	
+    
+	require_once (_XVI."xvi_mail.php");
 ?>

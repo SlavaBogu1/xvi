@@ -128,7 +128,6 @@
 
     //echo "<br> Memory usage: ".(memory_get_usage() - $script_memory )."<br>";
     //echo "Memory peak usage: ".memory_get_peak_usage()."<br>";
-
     exit(0);
 /* END OF ENGINE */
 
@@ -199,14 +198,14 @@ class cXVI_engine{
             /**                
               @brief TEPLATE_NAME is the HTML template name. If it is not defined then engine will use default.
             */
-            if ($this->page_options["template"]=="default") {
+            if ($this->page_options['template']=='default') {
                 /// @cond ALL
                 // see xvi_clDB.php comments        
                 defined('TEPLATE_NAME') or eval('define(TEPLATE_NAME,"default.html");');
                 /// @endcond            
                 $template_name = TEPLATE_PATH.TEPLATE_NAME;
             } else {
-                $template_name = TEPLATE_PATH.$this->page_options["template"];
+                $template_name = TEPLATE_PATH.$this->page_options['template'];
             }
             $this->template = cXVI_Template::getInstance($template_name);
         }
