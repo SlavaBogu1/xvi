@@ -229,7 +229,8 @@ class cXVI_engine{
             if(is_null($this->page_options)) {
                 $this->page_options = ""; // @TODO Defaul page options
             }
-            $this->content = $data['CONTENT'][0];
+            //$this->content = $data['CONTENT'][0];
+            $this->content = array_merge($data['CONTENT']);
             if(is_null($this->content)) {
                 $this->content = array("PH_DEMO" => "test", "PH_BODY"=>"test");
             }

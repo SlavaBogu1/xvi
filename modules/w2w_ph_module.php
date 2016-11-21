@@ -14,6 +14,7 @@ class w2w_ph_module extends cXVI_AbsModule{
         $module_queue_json =<<< EOF
 {
 "W2W_CSS": [{ "class":"w2w_ph_module", "priority":"0" }],
+"PH_SITE_HEADER": [{ "class":"w2w_ph_module", "priority":"0" }],
 "TEST_EMPTY": [{ "class":"module_1", "priority":"0" }]
 }
 EOF;
@@ -26,6 +27,8 @@ EOF;
                     return self::PH_CSS();
                 case 'TEST_EMPTY':
                     return self::PH_Clear();
+                case 'PH_SITE_HEADER':
+                    return self::PH_SiteHeader();
                 default:
                     return self::PH_Clear();
             }
@@ -55,6 +58,19 @@ EOF;
     private function PH_CSS(){
         return "<link rel=\"stylesheet\" href=\"/".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
      }
+     
+    private function PH_SiteHeader(){
+        $res =<<<EOF
+        <div id="header"> 
+		<div id="hdr-overlay"></div> 
+		<div id="hdr-box1" class="box">Видео</div> 
+		<div id="hdr-box2" class="box">Путешествия</div> 
+		<h1>Бесплатно</h1>  
+		<h2>Это <br> стоит увидеть</h2> 
+	</div>
+EOF;
+        return $res;
+    }
  
 }
 
