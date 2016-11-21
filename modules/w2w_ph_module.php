@@ -19,6 +19,7 @@ class w2w_ph_module extends cXVI_AbsModule{
 "SITE_FOOTER": [{ "class":"w2w_ph_module", "priority":"0" }],
 "CONTENT_MAIN_XLINKS": [{ "class":"w2w_ph_module", "priority":"0" }],
 "FAVICON": [{ "class":"w2w_ph_module", "priority":"0" }],
+"PAGE_MENU": [{ "class":"w2w_ph_module", "priority":"0" }],
 "TEST_EMPTY": [{ "class":"module_1", "priority":"0" }]
 }
 EOF;
@@ -41,6 +42,8 @@ EOF;
                     return self::PH_SiteCrossLinks();
                 case 'FAVICON':
                     return self::PH_Favicon();
+                case 'PAGE_MENU':
+                    return self::PH_PageMenu();
                 default:
                     return self::PH_Clear();
             }
@@ -66,6 +69,15 @@ EOF;
         private function PH_Clear(){
             return "";
         }
+        
+        private function PH_PageMenu(){
+            $res =<<<EOF
+        <li><a href="/../index.html"><span></span>Главная</a></li>
+	<li><a class="sel" href="/../video/video.html"><span></span>Видео</a></li> 
+	<li><a href="#"><span></span>Путешествия</a></li>
+EOF;
+                return $res;
+        }
 
         private function PH_CSS(){
             return "<link rel=\"stylesheet\" href=\"".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
@@ -83,13 +95,11 @@ EOF;
 
      private function PH_SiteHeader(){
         $res =<<<EOF
-        <div id="header"> 
 		<div id="hdr-overlay"></div> 
 		<div id="hdr-box1" class="box">Видео</div> 
 		<div id="hdr-box2" class="box">Путешествия</div> 
 		<h1>Бесплатно</h1>  
 		<h2>Это <br> стоит увидеть</h2> 
-	</div>
 EOF;
         return $res;
     }

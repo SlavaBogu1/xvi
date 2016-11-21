@@ -1,0 +1,13 @@
+# Apache configuration file (see httpd.apache.org/docs/2.2/mod/quickreference.html)
+
+# disable directory listing
+Options -Indexes
+
+# Setup a deny/allow
+Order Deny,Allow
+# Deny from everyone
+Deny from all
+#Allow from all
+
+#RewriteEngine on
+#RewriteRule ^files/ - [R=404,L,NC]
