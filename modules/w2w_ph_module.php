@@ -14,6 +14,11 @@ class w2w_ph_module extends cXVI_AbsModule{
         $module_queue_json =<<< EOF
 {
 "W2W_CSS": [{ "class":"w2w_ph_module", "priority":"0" }],
+"W2W_JS": [{ "class":"w2w_ph_module", "priority":"0" }],
+"PH_SITE_HEADER": [{ "class":"w2w_ph_module", "priority":"0" }],
+"SITE_FOOTER": [{ "class":"w2w_ph_module", "priority":"0" }],
+"CONTENT_MAIN_XLINKS": [{ "class":"w2w_ph_module", "priority":"0" }],
+"FAVICON": [{ "class":"w2w_ph_module", "priority":"0" }],
 "TEST_EMPTY": [{ "class":"module_1", "priority":"0" }]
 }
 EOF;
@@ -24,8 +29,18 @@ EOF;
             switch ($placeholder_id) {
                 case 'W2W_CSS':
                     return self::PH_CSS();
+                case 'W2W_JS':
+                    return self::PH_JS();
                 case 'TEST_EMPTY':
                     return self::PH_Clear();
+                case 'PH_SITE_HEADER':
+                    return self::PH_SiteHeader();
+                case 'SITE_FOOTER':                    
+                    return self::PH_SiteFooter();
+                case 'CONTENT_MAIN_XLINKS':
+                    return self::PH_SiteCrossLinks();
+                case 'FAVICON':
+                    return self::PH_Favicon();
                 default:
                     return self::PH_Clear();
             }
@@ -48,15 +63,71 @@ EOF;
      * @brief Replace unknown placeholder by empty string
      *  this is default function, don't delete it
      */
-    private function PH_Clear(){
-        return "";
+        private function PH_Clear(){
+            return "";
+        }
+
+        private function PH_CSS(){
+            return "<link rel=\"stylesheet\" href=\"".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
+        }
+
+         private function PH_JS(){
+            $res = "<script src=\"".PUBLIC_HTML."/js/jquery-2.1.3.min.js\"></script>";
+            $res .="<script src=\"".PUBLIC_HTML."/js/readmore.min.js\"></script>";
+            return $res;
+        }
+ 
+        private function PH_Favicon(){
+            return "<link rel=\"icon\" type=\"image/ico\" href=\"".PUBLIC_HTML."/favicon.ico\" />";
+        }
+
+     private function PH_SiteHeader(){
+        $res =<<<EOF
+        <div id="header"> 
+		<div id="hdr-overlay"></div> 
+		<div id="hdr-box1" class="box">Видео</div> 
+		<div id="hdr-box2" class="box">Путешествия</div> 
+		<h1>Бесплатно</h1>  
+		<h2>Это <br> стоит увидеть</h2> 
+	</div>
+EOF;
+        return $res;
+    }
+    
+    private function PH_SiteCrossLinks(){
+        //generate list of cross-site references to other pages
+        $path = PUBLIC_HTML;
+        $res =<<<EOF
+<h4>Тематические подборки видео</h4> 
+    <ul> 
+            <li><a href="$path/video/video-boevik.html">Кино для мужской компании</a></li> 
+            <li><a href="$path/video/video-crazy.html">Необычные персонажи</a></li> 
+            <li><a href="$path/video/video-izmena.html">Про страсть и измены</a></li>
+            <li><a href="$path/video/video-jc.html">Фильмы с Джимом Керри</a></li> 
+            <li><a href="$path/video/video-jd.html">Джонни Дэпп - лучший</a></li> 
+            <li><a href="$path/video/video-lonely.html">Всё про одиночество</a></li> 
+            <li><a href="$path/video/video-love.html">Про любовь и чувства</a></li> 
+            <li><a href="$path/video/video-motivate.html">Фильмы для мотивации</a></li>
+            <li><a href="$path/video/video-mystique.html">Мистические картины</a></li>
+            <li><a href="$path/video/video-poker.html">Любителям игры в покер</a></li> 
+    </ul>
+EOF;
+        return $res;
     }
 
-    private function PH_CSS(){
-        return "<link rel=\"stylesheet\" href=\"/".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
-     }
- 
+    private function PH_SiteFooter(){
+        //generate list of cross-site references to other pages
+    $res =<<<EOF
+    <div id="footer"> 
+            <a href="#">Lorem</a> |
+            <a href="#">Ipsum</a> |
+            <a href="#">Dolor</a> |
+            <a href="#">Sit amet</a> |
+            <a href="#">Aliquip</a> 
+    </div> 
+EOF;
+        return $res;
+    }
 }
-
   
 ?>

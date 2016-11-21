@@ -9,7 +9,7 @@
   @section intro_sec Introduction 
   XVI is the multi-site CMS engine.<br>
 
-  @version   0.13.11
+  @version   0.16.16
   @date      2016
   
   @section main_sec Main flow
@@ -55,14 +55,18 @@
   ln -s /var/www/engine/index.html /var/www/html/test.html
   @endcode
   
+ @TODO Development roadmap
+ * -need to support site-wide wariables (menu). Need to move them into w2w_content -> "site"
+ * -
+  
   @subsection debug Debug with xdebug
   @sa http://stuporglue.org/setting-up-xdebug-with-netbeans-on-windows-with-a-remote-apache-server/comment-page-1/#comment-6507
 */
-
-	/**
-		Memory footprint monitoring
-	*/
-	//$script_memory = memory_get_usage();
+  
+/*START*/
+    
+/** Memory footprint monitoring*/
+//$script_memory = memory_get_usage();
   
   /**
  @brief	Load ALL engine files
