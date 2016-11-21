@@ -225,20 +225,31 @@ class cXVI_engine{
             
             $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
      
-            $this->page_options =$data['OPTIONS'][0];
+            $this->page_options = array();
+            foreach( $data['OPTIONS'] as $element){
+                $this->page_options = array_merge($this->page_options,$element);
+            }                        
             if(is_null($this->page_options)) {
-                $this->page_options = ""; // @TODO Defaul page options
+                $this->page_options = array("template" => "default"); // @TODO Defaul page options
             }
-            //$this->content = $data['CONTENT'][0];
-            $this->content = array_merge($data['CONTENT']);
+
+            $this->content = array();
+            foreach( $data['CONTENT'] as $element){
+                $this->content = array_merge($this->content,$element);
+            }            
             if(is_null($this->content)) {
-                $this->content = array("PH_DEMO" => "test", "PH_BODY"=>"test");
+                $this->content = array("PH_DEMO" => "This page is empty");
             }
         }
         
         public function UpdateTemplate(){
             $res = $this->template->getHTML_Template();
 
+            /** @brief Processing of PH templates from the DB. 
+             * processing is in order how PH stored in the DB
+             * order is important.
+             * If PH defined befor it is used - it will be ignored (replacement by space)
+             */
             foreach($this->content as $ph=>$replace_str){
                 $res = str_replace(OPEN_PATTERN_SIGN.$ph.CLOSE_PATTERN_SIGN, $replace_str, $res);
             }

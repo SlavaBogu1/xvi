@@ -15,6 +15,7 @@ class w2w_ph_module extends cXVI_AbsModule{
 {
 "W2W_CSS": [{ "class":"w2w_ph_module", "priority":"0" }],
 "PH_SITE_HEADER": [{ "class":"w2w_ph_module", "priority":"0" }],
+"CONTENT_MAIN_XLINKS": [{ "class":"w2w_ph_module", "priority":"0" }],
 "TEST_EMPTY": [{ "class":"module_1", "priority":"0" }]
 }
 EOF;
@@ -29,6 +30,8 @@ EOF;
                     return self::PH_Clear();
                 case 'PH_SITE_HEADER':
                     return self::PH_SiteHeader();
+                case 'CONTENT_MAIN_XLINKS':
+                    return self::PH_SiteCrossLinks();
                 default:
                     return self::PH_Clear();
             }
@@ -52,7 +55,7 @@ EOF;
      *  this is default function, don't delete it
      */
     private function PH_Clear(){
-        return "";
+        return "ccc";
     }
 
     private function PH_CSS(){
@@ -68,6 +71,26 @@ EOF;
 		<h1>Бесплатно</h1>  
 		<h2>Это <br> стоит увидеть</h2> 
 	</div>
+EOF;
+        return $res;
+    }
+    
+    private function PH_SiteCrossLinks(){
+        //generate list of cross-site references to other pages
+        $res =<<<EOF
+<h4>Тематические подборки видео</h4> 
+    <ul> 
+            <li><a href=\"/../video/video-boevik.html\">Кино для мужской компании</a></li> 
+            <li><a href=\"/../video/video-crazy.html\">Необычные персонажи</a></li> 
+            <li><a href=\"/../video/video-izmena.html\">Про страсть и измены</a></li>
+            <li><a href=\"/../video/video-jc.html\">Фильмы с Джимом Керри</a></li> 
+            <li><a href=\"/../video/video-jd.html\">Джонни Дэпп - лучший</a></li> 
+            <li><a href=\"/../video/video-lonely.html\">Всё про одиночество</a></li> 
+            <li><a href=\"/../video/video-love.html\">Про любовь и чувства</a></li> 
+            <li><a href=\"/../video/video-motivate.html\">Фильмы для мотивации</a></li>
+            <li><a href=\"/../video/video-mystique.html\">Мистические картины</a></li>
+            <li><a href=\"/../video/video-poker.html\">Любителям игры в покер</a></li> 
+    </ul>
 EOF;
         return $res;
     }
