@@ -39,6 +39,9 @@
   
   @subsection f2 Templates
   XVI engine support CSS templates
+ * Some recomendation about creating of templates
+ * - keep page stucture out of tempate. Let <div> stay in the template explicitly, otherwise page layout is not clear
+ * 
   
   @subsection f3 Modules
   XVI engine support dynamic third-party modules loading.
@@ -57,7 +60,8 @@
   
  @TODO Development roadmap
  * -need to support site-wide wariables (menu). Need to move them into w2w_content -> "site"
- * -
+ * -need to generate sitemap.xml
+ * -need to add TAGs for crosslinks generation
   
   @subsection debug Debug with xdebug
   @sa http://stuporglue.org/setting-up-xdebug-with-netbeans-on-windows-with-a-remote-apache-server/comment-page-1/#comment-6507
@@ -146,6 +150,8 @@ class cXVI_engine{
         private $ext_modules;        
         private $request;
         private $content;          //page content from DB in JSON format
+        private $pagetag;          //page tags from DB in JSON format
+        private $page_menu;        //page menu info from DB in JSON format
         private $page_options; //page options from DB in JSON format
         private $gen_db;
         private $res;
@@ -229,21 +235,31 @@ class cXVI_engine{
             
             $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
      
-            $this->page_options = array();
-            foreach( $data['OPTIONS'] as $element){
-                $this->page_options = array_merge($this->page_options,$element);
-            }                        
-            if(is_null($this->page_options)) {
-                $this->page_options = array("template" => "default"); // @TODO Defaul page options
+            $this->page_options = $this->ReadArray_fromJSON($data,FIELD_OPTIONS);
+            $this->content = $this->ReadArray_fromJSON($data,FIELD_CONTENT);
+            $this->pagetag = $this->ReadArray_fromJSON($data,FIELD_TAGS);
+            $this->page_menu = $this->ReadArray_fromJSON($data,FIELD_MENU);
+        }
+        
+        private function ReadArray_fromJSON($arr,$id){
+            $res = array();
+            foreach( $arr[$id] as $element){
+                $res = array_merge($res,$element);
+            }         
+            if(empty($res)) {
+                switch ($id) {
+                    case FIELD_MENU:                    
+                    case FIELD_TAGS:
+                        $res = array("show" => "false","something" => "else");
+                        break;
+                    case FIELD_CONTENT:
+                        $res = array("PH_DEMO" => "This page is empty");
+                        break;
+                    default:
+                        $res = array("EMPTY" => "ARRAY");
+                }
             }
-
-            $this->content = array();
-            foreach( $data['CONTENT'] as $element){
-                $this->content = array_merge($this->content,$element);
-            }            
-            if(is_null($this->content)) {
-                $this->content = array("PH_DEMO" => "This page is empty");
-            }
+            return $res;
         }
         
         public function UpdateTemplate(){

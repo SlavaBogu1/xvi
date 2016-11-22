@@ -80,17 +80,17 @@ EOF;
         }
 
         private function PH_CSS(){
-            return "<link rel=\"stylesheet\" href=\"".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
+            return "<link rel=\"stylesheet\" href=\"/".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
         }
 
          private function PH_JS(){
-            $res = "<script src=\"".PUBLIC_HTML."/js/jquery-2.1.3.min.js\"></script>";
-            $res .="<script src=\"".PUBLIC_HTML."/js/readmore.min.js\"></script>";
+            $res = "<script src=\"/".PUBLIC_HTML."/js/jquery-2.1.3.min.js\"></script>";
+            $res .="<script src=\"/".PUBLIC_HTML."/js/readmore.min.js\"></script>";
             return $res;
         }
  
         private function PH_Favicon(){
-            return "<link rel=\"icon\" type=\"image/ico\" href=\"".PUBLIC_HTML."/favicon.ico\" />";
+            return "<link rel=\"icon\" type=\"image/ico\" href=\"/".PUBLIC_HTML."/favicon.ico\" />";
         }
 
      private function PH_SiteHeader(){
@@ -128,13 +128,11 @@ EOF;
     private function PH_SiteFooter(){
         //generate list of cross-site references to other pages
     $res =<<<EOF
-    <div id="footer"> 
             <a href="#">Lorem</a> |
             <a href="#">Ipsum</a> |
             <a href="#">Dolor</a> |
             <a href="#">Sit amet</a> |
             <a href="#">Aliquip</a> 
-    </div> 
 EOF;
         return $res;
     }

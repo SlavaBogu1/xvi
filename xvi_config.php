@@ -65,4 +65,11 @@
   /** 	define cookie valid period */
   define('SET_COOKIE_VALID_PERIOD',2 * WEEKS_IN_SEC);  
   
+  /** DB field names constants
+   */
+  define('FIELD_OPTIONS','OPTIONS');
+  define('FIELD_CONTENT','CONTENT');
+  define('FIELD_TAGS','TAGS');
+  define('FIELD_MENU','MENU');
+  
 ?>
