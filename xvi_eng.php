@@ -31,7 +31,30 @@
  * Functions called at certain layer can create patterns for next layers.
  * Template processing is ongoing till all patterns are resolved.
  * 
+ * Логика обработки конента:
+ * 1) есть контент сайта и контент страницы
+ * 2) контент сайта готовится первый, затем контент страницы
+ * 3) есть два способа обработки
+ * 3.а) прямое копирование из DB
+ * 3.б) копирование и обработка модулями с использованием API
+ * 
+ * В данной CMS выполняется так:
+ *  - копирование вместо placeholders
+ *  - построение очереди зарегистрированных модулей и вызов их обработчиков в порядке приоритета для формирования контента
+ *  - замена оставшихся placeholders на пустую строку.
+ * 
+ * Если placeholder был заменен на первом шаге (из DB), то модули уже вызываться не будут
+ * На первом шаге placeholder может содержать вложенные placeholders. Они будут обработаны на этом же шаге (если есть обработчики далее) или на следующих шагах.
+ * 
+ * CMS строится слоями
+ * Первый слой - просто копирование из DB в шаблон HTML 
+ * Второй слой - примитивная обработка контента (например пути для JS / CSS ..). Фактически просто подстановка констант
+ * Третий слой - процедурная обработка контента (в зависимости от ключей или настроек)
+ * Четвертый слой - обработка под конкретного пользователя
+ * 
  
+ * @note Debugging key ?XDEBUG_SESSION_START=netbeans-xdebug
+ * 
   @section feature_sec Features
   @subsection f1 Multisite
   XVI support several sites by the single Engine. Each site must have the config file in the /engine/site/ folder with defined constants.
@@ -191,7 +214,11 @@ class cXVI_engine{
                 
         public function GetPageAddressFromRequest(){
             $this->request = cXVI_Request::getInstance();
-            return $this->request->GetClearPath(); 
+            $addr = $this->request->GetClearPath();
+            if (empty($addr)) {
+                $addr = DEFAULT_SITE_ROOT_PAGE;
+            } 
+            return $addr;
         }
 
         /**
@@ -223,10 +250,6 @@ class cXVI_engine{
          * @param type $page_addr
          */
         public function GetPageContent($page_addr){
-            if (empty($page_addr)) {
-                $page_addr = DEFAULT_SITE_ROOT_PAGE;
-            } 
-            
             $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
      
             $this->page_options = array();
