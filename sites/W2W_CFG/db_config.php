@@ -29,5 +29,13 @@ define('DBS_CONTENT_VAL', 'content');
 */
 #define('CFG_USER_NOT_SUPP_ID', 2);
 #define('CFG_ADMIN_PAGE_REQ_ID', 3);
+
+  /** DB field names constants
+   */
+  define('FIELD_OPTIONS','OPTIONS');
+  define('FIELD_CONTENT','CONTENT');
+  define('FIELD_SITE_CONTENT','CONTENT');
+  define('FIELD_TAGS','TAGS');
+  define('FIELD_MENU','MENU');
 	
 ?>

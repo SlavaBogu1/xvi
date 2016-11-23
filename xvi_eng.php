@@ -125,7 +125,11 @@
         exit(0);
     }
     
-
+ /**
+  @brief Get site content (common for all pages) from DB
+*/
+    $site_inst->GetSiteContent();
+    
 /**
   @brief Get client requiest info
 */
@@ -169,6 +173,10 @@ class cXVI_engine{
         private $ext_modules;        
         private $request;
         private $content;          //page content from DB in JSON format
+        private $pagetag;          //page tags from DB in JSON format
+        private $page_menu;     //page menu info from DB in JSON format
+        private $page_options;  //page options from DB in JSON format
+        private $site_content;    //site contentfrom DB in JSON format
         private $page_options; //page options from DB in JSON format
         private $gen_db;
         private $res;
@@ -190,6 +198,10 @@ class cXVI_engine{
           }
           return self::$_instance;
         }		
+        
+        public function API_GetSiteContent(){
+            return $this->site_content;
+        }
 
         public function CheckIfEngineIsRunning(){
             #$this->gen_db->setEngineRunStatus(CFG_ENGINE_RUNNING);
@@ -230,15 +242,21 @@ class cXVI_engine{
               @brief TEPLATE_NAME is the HTML template name. If it is not defined then engine will use default.
             */
             if ($this->page_options['template']=='default') {
-                /// @cond ALL
                 // see xvi_clDB.php comments        
-                defined('TEPLATE_NAME') or eval('define(TEPLATE_NAME,"default.html");');
+                defined('TEPLATE_NAME') or eval('define(\'TEPLATE_NAME\',"default.html");');
+                /// @cond ALL
                 /// @endcond            
                 $template_name = TEPLATE_PATH.TEPLATE_NAME;
             } else {
                 $template_name = TEPLATE_PATH.$this->page_options['template'];
             }
             $this->template = cXVI_Template::getInstance($template_name);
+        }
+        
+        public function GetSiteContent(){
+            $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_SITES,SITE_CONTENT_KEY),true);
+            $this->site_content = $this->ReadArray_fromJSON($data,FIELD_SITE_CONTENT);
+            return true;
         }
         
         /**
@@ -252,21 +270,31 @@ class cXVI_engine{
         public function GetPageContent($page_addr){
             $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
      
-            $this->page_options = array();
-            foreach( $data['OPTIONS'] as $element){
-                $this->page_options = array_merge($this->page_options,$element);
-            }                        
-            if(is_null($this->page_options)) {
-                $this->page_options = array("template" => "default"); // @TODO Defaul page options
+            $this->page_options = $this->ReadArray_fromJSON($data,FIELD_OPTIONS);
+            $this->content = $this->ReadArray_fromJSON($data,FIELD_CONTENT);
+            $this->pagetag = $this->ReadArray_fromJSON($data,FIELD_TAGS);
+            $this->page_menu = $this->ReadArray_fromJSON($data,FIELD_MENU);
+        }
+        
+        private function ReadArray_fromJSON($arr,$id){
+            $res = array();
+            foreach( $arr[$id] as $element){
+                $res = array_merge($res,$element);
+            }         
+            if(empty($res)) {
+                switch ($id) {
+                    case FIELD_MENU:                    
+                    case FIELD_TAGS:
+                        $res = array("show" => "false","something" => "else");
+                        break;
+                    case FIELD_CONTENT:
+                        $res = array("PH_DEMO" => "This page is empty");
+                        break;
+                    default:
+                        $res = array("EMPTY" => "ARRAY");
+                }
             }
-
-            $this->content = array();
-            foreach( $data['CONTENT'] as $element){
-                $this->content = array_merge($this->content,$element);
-            }            
-            if(is_null($this->content)) {
-                $this->content = array("PH_DEMO" => "This page is empty");
-            }
+            return $res;
         }
         
         public function UpdateTemplate(){

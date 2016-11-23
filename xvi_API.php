@@ -16,9 +16,11 @@
 class xvi_API {
     private static $_instance;
     private static $request;
-
+    private static $sitecontent;
+    
     function __construct(){
         self::$request = cXVI_Request::getInstance();
+        self::$sitecontent = cXVI_engine::getInstance();
     }
     /*  function __destruct(){ } */
     private function __clone(){ }    
@@ -33,6 +35,10 @@ class xvi_API {
         return self::$request->GetAddrStr(); 
     }
     
+    public static function GetSiteContent(){
+        $test = self::$sitecontent->API_GetSiteContent();
+        return $test; 
+    }
     
 } // end of class xvi_API
 

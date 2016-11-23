@@ -50,8 +50,8 @@ class cXVI_Modules {
             $this->module_queue_availabe = true;            // Set flag that there is a JSON module queue record in sites config db
         }
         
+        defined('PATTERN_PARSERS') or eval('define(\'PATTERN_PARSERS\',_XVI."modules/");');
         /// @cond ALL
-        defined('PATTERN_PARSERS') or eval('define(PATTERN_PARSERS,_XVI."modules/");');
         /// @endcond
         $module_folder = opendir(PATTERN_PARSERS); // open folder PATTERN_PARSERS 
 

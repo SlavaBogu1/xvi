@@ -13,14 +13,15 @@ class w2w_ph_module extends cXVI_AbsModule{
     public static function Register() {
         $module_queue_json =<<< EOF
 {
-"W2W_CSS": [{ "class":"w2w_ph_module", "priority":"0" }],
-"W2W_JS": [{ "class":"w2w_ph_module", "priority":"0" }],
-"PH_SITE_HEADER": [{ "class":"w2w_ph_module", "priority":"0" }],
-"SITE_FOOTER": [{ "class":"w2w_ph_module", "priority":"0" }],
+"W2W_CSS":                      [{ "class":"w2w_ph_module", "priority":"0" }],
+"W2W_JS":                         [{ "class":"w2w_ph_module", "priority":"0" }],
+"PH_SITE_HEADER":           [{ "class":"w2w_ph_module", "priority":"0" }],
+"SITE_FOOTER":                 [{ "class":"w2w_ph_module", "priority":"0" }],
 "CONTENT_MAIN_XLINKS": [{ "class":"w2w_ph_module", "priority":"0" }],
-"FAVICON": [{ "class":"w2w_ph_module", "priority":"0" }],
-"PAGE_MENU": [{ "class":"w2w_ph_module", "priority":"0" }],
-"TEST_EMPTY": [{ "class":"module_1", "priority":"0" }]
+"FAVICON":                         [{ "class":"w2w_ph_module", "priority":"0" }],
+"PAGE_MENU":                    [{ "class":"w2w_ph_module", "priority":"0" }],
+"PH_GA_ID":                       [{ "class":"w2w_ph_module", "priority":"0" }],                
+"TEST_EMPTY":                   [{ "class":"w2w_ph_module", "priority":"0" }]
 }
 EOF;
         return $module_queue_json;        
@@ -44,6 +45,8 @@ EOF;
                     return self::PH_Favicon();
                 case 'PAGE_MENU':
                     return self::PH_PageMenu();
+                case 'PH_GA_ID':
+                    return self::PH_GoogleID();       
                 default:
                     return self::PH_Clear();
             }
@@ -80,17 +83,17 @@ EOF;
         }
 
         private function PH_CSS(){
-            return "<link rel=\"stylesheet\" href=\"".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
+            return "<link rel=\"stylesheet\" href=\"/".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
         }
 
          private function PH_JS(){
-            $res = "<script src=\"".PUBLIC_HTML."/js/jquery-2.1.3.min.js\"></script>";
-            $res .="<script src=\"".PUBLIC_HTML."/js/readmore.min.js\"></script>";
+            $res = "<script src=\"/".PUBLIC_HTML."/js/jquery-2.1.3.min.js\"></script>";
+            $res .="<script src=\"/".PUBLIC_HTML."/js/readmore.min.js\"></script>";
             return $res;
         }
  
         private function PH_Favicon(){
-            return "<link rel=\"icon\" type=\"image/ico\" href=\"".PUBLIC_HTML."/favicon.ico\" />";
+            return "<link rel=\"icon\" type=\"image/ico\" href=\"/".PUBLIC_HTML."/favicon.ico\" />";
         }
 
      private function PH_SiteHeader(){
@@ -128,16 +131,35 @@ EOF;
     private function PH_SiteFooter(){
         //generate list of cross-site references to other pages
     $res =<<<EOF
-    <div id="footer"> 
             <a href="#">Lorem</a> |
             <a href="#">Ipsum</a> |
             <a href="#">Dolor</a> |
             <a href="#">Sit amet</a> |
             <a href="#">Aliquip</a> 
-    </div> 
 EOF;
         return $res;
     }
+    
+           private function PH_GoogleID(){
+        $site_content =self::$xvi_api->GetSiteContent();
+        $ga_code = $site_content['GA_CODE'];
+        
+        $res =<<< EOF
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '$ga_code', 'auto');
+  ga('send', 'pageview');
+      
+    </script>
+EOF;
+    return $res;
+    }
+    
+    
 }
   
 ?>
