@@ -39,7 +39,7 @@ EOF;
     
     function __construct(){
         self::Register();
-        $xvi_api =xvi_API::getInstance();
+        self::$xvi_api =xvi_API::getInstance();
     }
     /*  function __destruct(){ } */
     private function __clone(){ }    

@@ -22,6 +22,7 @@ define('DBS_VAL', 'cfgval');
 define('DBS_CONTENT_TABLE', 'w2w_content');
 define('DBS_CONTENT_KEY', 'key');
 define('DBS_CONTENT_VAL', 'content');
+define('SITE_CONTENT_KEY', 'w2w_site');
 
 /**
  @brief ID of records in the xvi_cfg table

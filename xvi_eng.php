@@ -177,7 +177,6 @@ class cXVI_engine{
         private $page_menu;     //page menu info from DB in JSON format
         private $page_options;  //page options from DB in JSON format
         private $site_content;    //site contentfrom DB in JSON format
-        private $page_options; //page options from DB in JSON format
         private $gen_db;
         private $res;
         private $html;
