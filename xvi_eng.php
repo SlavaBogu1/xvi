@@ -62,6 +62,9 @@
   
   @subsection f2 Templates
   XVI engine support CSS templates
+ * Some recomendation about creating of templates
+ * - keep page stucture out of tempate. Let <div> stay in the template explicitly, otherwise page layout is not clear
+ * 
   
   @subsection f3 Modules
   XVI engine support dynamic third-party modules loading.
@@ -80,7 +83,8 @@
   
  @TODO Development roadmap
  * -need to support site-wide wariables (menu). Need to move them into w2w_content -> "site"
- * -
+ * -need to generate sitemap.xml
+ * -need to add TAGs for crosslinks generation
   
   @subsection debug Debug with xdebug
   @sa http://stuporglue.org/setting-up-xdebug-with-netbeans-on-windows-with-a-remote-apache-server/comment-page-1/#comment-6507
