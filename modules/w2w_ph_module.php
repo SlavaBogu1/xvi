@@ -73,13 +73,23 @@ EOF;
             return "";
         }
         
+        /**
+         * Menu maker
+         * take list of menu item form SITE parameters and from PAGE paramenter and generate menu
+         */
         private function PH_PageMenu(){
-            $res =<<<EOF
-        <li><a href="/../index.html"><span></span>Главная</a></li>
-	<li><a class="sel" href="/../video/video.html"><span></span>Видео</a></li> 
-	<li><a href="#"><span></span>Путешествия</a></li>
-EOF;
-                return $res;
+            $site_menu = self::$xvi_api->GetSiteMenu();
+            $page_menu = self::$xvi_api->GetPageMenu();
+            
+            $menu ="";
+            foreach($site_menu as $menu_item=>$menu_path) {
+                if (strcmp($menu_item,$page_menu["item"])) { /*not selected menu item*/
+                    $menu .= "<li><a href=\"".$menu_path."\"<span></span>".$menu_item."</a></li>";
+                } else { /* it is selected menu*/
+                    $menu .= "<li><a class=\"sel\" href=\"".$menu_path."\"<span></span>".$menu_item."</a></li>";
+                }
+            }
+            return $menu;
         }
 
         private function PH_CSS(){
@@ -108,23 +118,34 @@ EOF;
     }
     
     private function PH_SiteCrossLinks(){
+        $site_xlinks = self::$xvi_api->ReadFromSiteContent(FIELD_XLINKS);
+        $page_tags = self::$xvi_api->ReadFromPageContentValue(FIELD_PAGE_TAGS);
+
         //generate list of cross-site references to other pages
         $path = PUBLIC_HTML;
         $res =<<<EOF
 <h4>Тематические подборки видео</h4> 
     <ul> 
-            <li><a href="$path/video/video-boevik.html">Кино для мужской компании</a></li> 
-            <li><a href="$path/video/video-crazy.html">Необычные персонажи</a></li> 
-            <li><a href="$path/video/video-izmena.html">Про страсть и измены</a></li>
-            <li><a href="$path/video/video-jc.html">Фильмы с Джимом Керри</a></li> 
-            <li><a href="$path/video/video-jd.html">Джонни Дэпп - лучший</a></li> 
-            <li><a href="$path/video/video-lonely.html">Всё про одиночество</a></li> 
-            <li><a href="$path/video/video-love.html">Про любовь и чувства</a></li> 
-            <li><a href="$path/video/video-motivate.html">Фильмы для мотивации</a></li>
-            <li><a href="$path/video/video-mystique.html">Мистические картины</a></li>
-            <li><a href="$path/video/video-poker.html">Любителям игры в покер</a></li> 
-    </ul>
 EOF;
+        
+        /** @todo Поставить проверку на пустые масссивы
+         */
+        
+        $xlink_names = array_keys($site_xlinks);
+        $i = -1;
+        foreach($site_xlinks as $xlink){
+            $i++;
+            $xlink_exist = false;
+            foreach($page_tags as $tag){
+                if (in_array($tag, $xlink[1]["tags"])){
+                    $xlink_exist = true;
+                } 
+            }
+            if ($xlink_exist) {
+                $res .= "<li><a href=\"".$path.$xlink_names[$i]."\">".$xlink[0]["name"]."</a></li>";
+            }
+        }
+        $res .= "</ul>";
         return $res;
     }
 

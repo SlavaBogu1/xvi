@@ -176,11 +176,14 @@ class cXVI_engine{
         private $template;
         private $ext_modules;        
         private $request;
+        private $pagedata;      //raw page JSON content
         private $content;          //page content from DB in JSON format
         private $pagetag;          //page tags from DB in JSON format
         private $page_menu;     //page menu info from DB in JSON format
         private $page_options;  //page options from DB in JSON format
-        private $site_content;    //site contentfrom DB in JSON format
+        private $sitedata;         // raw site JSON data
+        private $site_content;    //site content from DB in JSON format
+        private $site_menu;     //site menu descripton from DB in JSON format
         private $gen_db;
         private $res;
         private $html;
@@ -205,7 +208,26 @@ class cXVI_engine{
         public function API_GetSiteContent(){
             return $this->site_content;
         }
-
+        public function API_GetSiteMenu(){
+            return $this->site_menu;
+        }
+        public function API_GetPageMenu(){
+            return $this->page_menu;
+        }
+        public function API_SiteReadJSON_array($key){
+            return $this->ReadArray_fromJSON($this->sitedata,$key);
+        }
+        public function API_PageReadJSON_array($key){
+            return $this->ReadArray_fromJSON($this->pagedata,$key);
+        }        
+        public function API_PageReadJSON_value($key){
+            return $this->ReadValue_fromJSON($this->pagedata,$key);
+        }        
+   
+        
+        
+        
+        
         public function CheckIfEngineIsRunning(){
             #$this->gen_db->setEngineRunStatus(CFG_ENGINE_RUNNING);
             if(!$res = $this->gen_db->getEngineRunStatus()){
@@ -257,8 +279,9 @@ class cXVI_engine{
         }
         
         public function GetSiteContent(){
-            $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_SITES,SITE_CONTENT_KEY),true);
-            $this->site_content = $this->ReadArray_fromJSON($data,FIELD_SITE_CONTENT);
+            $this->sitedata = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_SITES,SITE_CONTENT_KEY),true);
+            $this->site_content = $this->ReadArray_fromJSON($this->sitedata,FIELD_SITE_CONTENT);
+            $this->site_menu = $this->ReadArray_fromJSON($this->sitedata,FIELD_MENU);
             return true;
         }
         
@@ -267,16 +290,26 @@ class cXVI_engine{
          * content is JSON list of record "PH":"content"
          * JSON structure
          *  "OPTIONS":["name":"value"]
+         *  "MENU":[{"item":"","submenu":"","visible":"true"}],
          *  "CONTENT":["PH":"content"]
          * @param type $page_addr
          */
         public function GetPageContent($page_addr){
-            $data = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
+            $this->pagedata = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
      
-            $this->page_options = $this->ReadArray_fromJSON($data,FIELD_OPTIONS);
-            $this->content = $this->ReadArray_fromJSON($data,FIELD_CONTENT);
-            $this->pagetag = $this->ReadArray_fromJSON($data,FIELD_TAGS);
-            $this->page_menu = $this->ReadArray_fromJSON($data,FIELD_MENU);
+            $this->page_options = $this->ReadArray_fromJSON($this->pagedata,FIELD_OPTIONS);
+            $this->content = $this->ReadArray_fromJSON($this->pagedata,FIELD_CONTENT);
+            $this->pagetag = $this->ReadArray_fromJSON($this->pagedata,FIELD_TAGS);
+            $this->page_menu = $this->ReadArray_fromJSON($this->pagedata,FIELD_MENU);
+        }
+
+        private function ReadValue_fromJSON($arr,$id){
+            $res = array();
+            $res = array_merge($res,$arr[$id]);
+            if(empty($res)) {
+                $res = array("EMPTY" => "ARRAY");
+            }
+            return $res;
         }
         
         private function ReadArray_fromJSON($arr,$id){
