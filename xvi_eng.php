@@ -307,7 +307,7 @@ class cXVI_engine{
             $res = array();
             $res = array_merge($res,$arr[$id]);
             if(empty($res)) {
-                $res = array("EMPTY" => "ARRAY");
+                $res = null;
             }
             return $res;
         }
@@ -327,7 +327,7 @@ class cXVI_engine{
                         $res = array("PH_DEMO" => "This page is empty");
                         break;
                     default:
-                        $res = array("EMPTY" => "ARRAY");
+                        $res = null;
                 }
             }
             return $res;

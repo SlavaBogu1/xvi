@@ -121,6 +121,10 @@ EOF;
         $site_xlinks = self::$xvi_api->ReadFromSiteContent(FIELD_XLINKS);
         $page_tags = self::$xvi_api->ReadFromPageContentValue(FIELD_PAGE_TAGS);
 
+        if (empty($page_tags) OR empty($site_xlinks)) {
+            return null;
+        }
+        
         //generate list of cross-site references to other pages
         $path = PUBLIC_HTML;
         $res =<<<EOF

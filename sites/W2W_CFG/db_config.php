@@ -9,7 +9,7 @@ defined('_XVI') or die('Engine is not initialized properly'.__FILE__);
 #database info used by the site
 define('DBS_NAME', 'xvi_sites');
 define('DBS_USER', 'xvi_user');
-define('DBS_PSW', XVI_DBS_PWD); // don't forget to add your password here
+define('DBS_PSW', XVI_DBS_PWD); 
 
 /**
  @brief list of tables in the database
