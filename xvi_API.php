@@ -39,6 +39,23 @@ class xvi_API {
         return self::$engine->API_GetSiteContent();
     }
     
+    public static function GetSiteMenu(){
+        return self::$engine->API_GetSiteMenu();
+    }
+    public static function GetPageMenu(){
+        return self::$engine->API_GetPageMenu();
+    }
+    public static function ReadFromSiteContent($key){
+        return self::$engine->API_SiteReadJSON_array($key);
+    }
+    public static function ReadFromPageContent($key){
+        return self::$engine->API_PageReadJSON_array($key);
+    }
+    public static function ReadFromPageContentValue($key){
+        return self::$engine->API_PageReadJSON_value($key);
+    }
+    
+    
 } // end of class xvi_API
 
 ?>

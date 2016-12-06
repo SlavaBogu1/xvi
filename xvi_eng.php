@@ -160,6 +160,7 @@
   @brief show the page
 */
     $site_inst->Show();
+   // ConvertFile();
 
     //echo "<br> Memory usage: ".(memory_get_usage() - $script_memory )."<br>";
     //echo "Memory peak usage: ".memory_get_peak_usage()."<br>";

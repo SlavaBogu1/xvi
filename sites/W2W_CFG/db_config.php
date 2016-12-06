@@ -9,7 +9,7 @@ defined('_XVI') or die('Engine is not initialized properly'.__FILE__);
 #database info used by the site
 define('DBS_NAME', 'xvi_sites');
 define('DBS_USER', 'xvi_user');
-define('DBS_PSW', XVI_DBS_PWD); // don't forget to add your password here
+define('DBS_PSW', XVI_DBS_PWD); 
 
 /**
  @brief list of tables in the database
@@ -32,11 +32,17 @@ define('SITE_CONTENT_KEY', 'w2w_site');
 #define('CFG_ADMIN_PAGE_REQ_ID', 3);
 
   /** DB field names constants
+   * this fields required to override same parameters from xvi_config.php if required
    */
   define('FIELD_OPTIONS','OPTIONS');
   define('FIELD_CONTENT','CONTENT');
   define('FIELD_SITE_CONTENT','CONTENT');
   define('FIELD_TAGS','TAGS');
   define('FIELD_MENU','MENU');
-	
+  
+  /** Unique keys for this particular site
+   */
+  define('FIELD_XLINKS','XLINKS_PAGES');	
+  define('FIELD_PAGE_TAGS','PAGE_TAGS');
+  
 ?>

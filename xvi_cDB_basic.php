@@ -108,6 +108,7 @@
                 }
 
                 if ($res->num_rows == 0) {
+                                        echo "4";
                         if (isset($res)){
                                 //$res->free();
                                 //$res->close();	
