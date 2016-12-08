@@ -32,13 +32,9 @@ define('SITE_CONTENT_KEY', 'w2w_site');
 #define('CFG_ADMIN_PAGE_REQ_ID', 3);
 
   /** DB field names constants
-   * this fields required to override same parameters from xvi_config.php if required
+   * extend the list from xvi_config
    */
-  define('FIELD_OPTIONS','OPTIONS');
-  define('FIELD_CONTENT','CONTENT');
   define('FIELD_SITE_CONTENT','CONTENT');
-  define('FIELD_TAGS','TAGS');
-  define('FIELD_MENU','MENU');
   
   /** Unique keys for this particular site
    */

@@ -120,7 +120,7 @@ EOF;
     private function PH_SiteCrossLinks(){
         $site_xlinks = self::$xvi_api->ReadFromSiteContent(FIELD_XLINKS);
         $page_tags = self::$xvi_api->ReadFromPageContentValue(FIELD_PAGE_TAGS);
-
+        
         if (empty($page_tags) OR empty($site_xlinks)) {
             return null;
         }

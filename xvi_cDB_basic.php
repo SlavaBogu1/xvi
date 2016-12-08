@@ -108,7 +108,8 @@
                 }
 
                 if ($res->num_rows == 0) {
-                                        echo "4";
+                     /** @todo Page is not found - no content
+                      */
                         if (isset($res)){
                                 //$res->free();
                                 //$res->close();	
