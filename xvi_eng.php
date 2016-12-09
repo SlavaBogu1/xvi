@@ -161,7 +161,16 @@
 */
     $site_inst->Show();
    // ConvertFile();
+    
+    
+    /** TOOLS DEVELOPMENT AREA
+    */
+   require_once (_XVI."Tools/xvi_sitemapgen.php");
+   //GenerateSiteMap();    
 
+   
+   
+   
     //echo "<br> Memory usage: ".(memory_get_usage() - $script_memory )."<br>";
     //echo "Memory peak usage: ".memory_get_peak_usage()."<br>";
     exit(0);

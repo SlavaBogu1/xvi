@@ -26,30 +26,31 @@
     require_once(_XVI."xvi_cDB_eng.php");        
     require_once(_XVI."xvi_clContent.php");
     
-    $db = cXVI_db::getInstance();
-    
-    $jsn = ReadJSON_description($db);
-    //print_r ($jsn);
-    
-    $sites_list = GetTheListOfSites($jsn);
-    print_r ($sites_list);
- 
-    /*
-    foreach($sites_list as $sitename) {
-        $pages_list = GetTheListOfSites($sitename);
-    }*/
+    GenerateSiteMap();
     
     exit (0);
+    
+    function GenerateSiteMap(){
+        $db = cXVI_db::getInstance();
+
+        $jsn = ReadJSON_description($db);
+        $sites_info = json_decode($jsn,true);
+        $sites_names = array_keys($sites_info);
+
+        $i = -1;
+        foreach($sites_info as $site){
+            $i++;
+            LoadSiteParameters($sites_names[$i], $site);
+        }
+        
+    }
     
     function ReadJSON_description($db){
         return  $db->ReadDBKey(DB_SOURCE_ENGINE,'sitelist'); 
     }
     
-    function GetTheListOfSites($jsn){
-        $list = json_decode($jsn,true);
-        //print_r ($list);
-        return  array_keys($list);
-        
+    function LoadSiteParameters($name, $site){
+        return 0;
     }
-  
+    
 ?>
