@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>XVI Editor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+        #main {width:1280px;margin:auto;}
+        #content {width:100%;text-align:left;  }
+        #center {width:70%;background-color:yellow;float: left;}
+        #right {width:30%; background-color:green;float: left;}
+        #txtcomment{width: 90%;height: 600px;margin-left: 5%;}
+        .button {float: right; cursor:pointer;position: relative;margin-right: 20px;}
+        footer { clear: left;}
+        </style>
+    </head>
+    <body>
+        <header  id="header">
+            <h1>XVI редактирование страницы</h1>
+            <p>Выберите адрес страницы для редактирования из меню или создайте новую страницу нажав кнопку "New"</p>
+        </header>
+        <div id="main">
+            <div id="content">
+                <div id="center"><p>Page content</p>
+                    
+                    <form method="POST" action="xvi_update.php">
+                    <textarea id="txtcomment" name="txtcomment" maxlength="40000"></textarea><br /><br />
+                    <input type="submit" class="button" value="Update">
+                    </form>
+                </div>
+                <div id="right">Page settings</div>
+            </div>
+        </div>
+        <footer>
+        CONTACTS
+        </footer>
+    </body>
+</html>

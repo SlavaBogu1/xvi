@@ -54,6 +54,10 @@ class cXVI_db_sites extends cXVI_db_basic{
    public function ReadDBKey($key){
         return parent::ReadDBKey(DBS_TABLE,$key);
     }        
+    
+    public function CallDB_SP($sp, $key){
+        return parent::CallDB_SP($sp, $key);       
+    }
 
 } //End of class cXVI_db_sites
 

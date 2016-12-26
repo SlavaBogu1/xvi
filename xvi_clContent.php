@@ -51,6 +51,10 @@
             return parent::ReadDBKey(DBS_CONTENT_TABLE,$key);
         }   
         
+        public function CallDB_SP($sp, $key){
+            return parent::CallDB_SP($sp, $key);       
+        }   
+        
         /** @brief Get content from the database
          *   @param $path identified the key in the database to read
          *   @todo Add cache support

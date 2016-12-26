@@ -53,6 +53,20 @@ defined('DBS_TABLE') or eval('define(\'DBS_TABLE\',XVI_DBS_TABLE);');
             }
             return self::$_instance;
         }
+        
+        public function CallDB_SP($db_src, $sp, $key){
+            switch ($db_src) {
+                case DB_SOURCE_CONTENT:
+                    return $this->content_db->CallDB_SP($sp, $key);
+                case DB_SOURCE_ENGINE:
+                    return $this->eng_db->CallDB_SP($sp, $key);
+                case DB_SOURCE_SITES:
+                    return $this->sites_db->CallDB_SP($sp, $key);
+                default:
+                    /** @todo wrong DB source */
+                    break;
+            }
+        }
 
         public function ReadDBKey($db_src, $key) {
             switch ($db_src) {

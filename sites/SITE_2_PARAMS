@@ -15,7 +15,7 @@
 	/**
 	 SITE constants   
         */
-	define('TEPLATE_NAME',"default.html");
+	define('TEMPLATE_NAME',"default.html");
 	define('SITE_DIR',"IW/");        
 	define('DB_CONFIG',SITES_CFG_PATH.SITE_DIR."db_config.php");
     

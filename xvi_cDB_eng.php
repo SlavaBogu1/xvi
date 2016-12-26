@@ -43,6 +43,9 @@ class cXVI_db_eng extends cXVI_db_basic{
     public function ReadDBKey($key){
         return parent::ReadDBKey(DBE_TABLE, $key);
     }        
+    public function CallDB_SP($sp, $key){
+        return parent::CallDB_SP($sp, $key);       
+    }
 
 
 } //End of class cXVI_db_eng

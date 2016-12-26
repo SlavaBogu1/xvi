@@ -89,7 +89,9 @@
   @subsection debug Debug with xdebug
   @sa http://stuporglue.org/setting-up-xdebug-with-netbeans-on-windows-with-a-remote-apache-server/comment-page-1/#comment-6507
 */
-  
+
+/*require_once (_XVI."xvi_editor.php");*/
+
 /*START*/
     
 /** Memory footprint monitoring*/
@@ -116,7 +118,7 @@
   @brief Check if Engine is running
 */
     if (!$site_inst->CheckIfEngineIsRunning()) {
-        $html = file_get_contents(TEPLATE_PATH."default_503.html");
+        $html = file_get_contents(TEMPLATE_PATH."default_503.html");
         echo $html;
         exit(0);
     }
@@ -124,7 +126,7 @@
   @brief Check if Site is running
 */
     if (!$site_inst->CheckIfSiteIsRunning()) {
-        $html = file_get_contents(TEPLATE_PATH."default_503.html");
+        $html = file_get_contents(TEMPLATE_PATH."default_503.html");
         echo $html;
         exit(0);
     }
@@ -265,16 +267,16 @@ class cXVI_engine{
          */
         public function GetTemplate($page_addr){
             /**                
-              @brief TEPLATE_NAME is the HTML template name. If it is not defined then engine will use default.
+              @brief TEMPLATE_NAME is the HTML template name. If it is not defined then engine will use default.
             */
             if ($this->page_options['template']=='default') {
                 // see xvi_clDB.php comments        
-                defined('TEPLATE_NAME') or eval('define(\'TEPLATE_NAME\',"default.html");');
+                defined('TEMPLATE_NAME') or eval('define(\'TEMPLATE_NAME\',"default.html");');
                 /// @cond ALL
                 /// @endcond            
-                $template_name = TEPLATE_PATH.TEPLATE_NAME;
+                $template_name = TEMPLATE_PATH.TEMPLATE_NAME;
             } else {
-                $template_name = TEPLATE_PATH.$this->page_options['template'];
+                $template_name = TEMPLATE_PATH.$this->page_options['template'];
             }
             $this->template = cXVI_Template::getInstance($template_name);
         }

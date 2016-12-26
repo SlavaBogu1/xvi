@@ -22,10 +22,10 @@
   define('SITES_CFG_PATH',_XVI."sites/");  
 
   /**
-   TEPLATE_PATH is the name of folder where HTML templates of the page are stored
+   TEMPLATE_PATH is the name of folder where HTML templates of the page are stored
    @note separate pages can have different templates. Moreover template may contain HTML,CSS and other files. 
    */
-  define('TEPLATE_PATH',_XVI."templates/");
+  define('TEMPLATE_PATH',_XVI."templates/");
  
   /** 
    Define pattern parser folder and parameters

@@ -138,6 +138,67 @@
                 return $keyvalue;
         }                
         
+        function CallDB_SP($sp,$key){
+        
+        $q = "SET @site_name = '".$key."'; ";
+        if (!$err = $this->db->query($q) ){
+            /* @todo Error handler. Can't call stored rocedure
+             */
+            if (isset($err)){
+                $err->free();
+                $err->close();	
+            }
+            return false;
+        };
+
+        $q = "CALL `".$sp."` (@site_name);";			
+        /**
+            DB read key error processing
+        */
+        if (!$res = $this->db->query($q)) {			
+            /**
+                @todo deal with Query error, generate run-time warning
+            */			
+            #echo "Can't call stored rocedure (" . $this->db->errno . ") " . $this->db->error;
+            if (isset($res)){
+                $res->free();
+                $res->close();			
+            }
+            return false;
+        }	
+        if ($res->num_rows == 0) {
+            if (isset($res)){
+                $res->free();
+                $res->close();			
+            }
+            ##$key." - key not found";
+            # @todo send error message to the log
+            return false;
+        }
+        /**	
+            If more than one key - read the one with biggest id.			
+            other - ignored
+            @todo Send WARNING message to the log. 
+        */
+        if ($res->num_rows > 1) {			
+            while ($cfg_val = $res->fetch_row()) { 
+                $keyvalue = $cfg_val[0];
+            }			
+        } else {
+            $cfg_val = $res->fetch_row(); 
+            $keyvalue = $cfg_val[0];
+        }		
+        /**
+            @sa https://habrahabr.ru/post/21326/
+        */
+        while($this->db->next_result()) $this->db->store_result();
+
+        $res->free();
+        $res->close();
+        return $keyvalue;
+    }
+        
+        
     }//End of class cXVI_db_basic
     
 /*@}*/

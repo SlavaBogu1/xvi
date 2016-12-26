@@ -16,4 +16,31 @@
     }
   }*/
   
+  
+        /**
+         *  @sa https://ubuntuforums.org/showthread.php?t=880698
+         *  Возникла проблема, скрипт работает от www-data пользователя  и не имеет прав записи в каталоги внутри /var/www
+         *  Не рекомендуется расширять права - это приветет к уязвимости
+         *  @sa http://skycase.ru/blog/securing-your-php-sites-hosting/ 
+         *  настройка прав доступа к сайтам, обслуживаемых скриптом .. 
+          */
+        function OpenFile($path,$name,$mode="r"){
+        /*
+            $userinfo = posix_getpwuid(posix_getuid());
+            echo "<br>".$userinfo['name'];//выведет имя пользователя, от которого работает PHP
+        */    
+            try {
+                $handle = fopen($path.$name,$mode);
+                if ($handle===false) {                
+                    throw new Exception('File open failed.');
+                }
+                return $handle;
+            } catch ( Exception $e ) {
+                    /** 
+                     * @todo generate error to log
+                     */
+                     print_r(error_get_last());
+            }
+        }
+  
 ?>

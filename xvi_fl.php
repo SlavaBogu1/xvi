@@ -38,7 +38,7 @@
      @section site-specifig Load site-specifig configuration file
      File name is combined from SITES_CFG_PATH and SITE_ID.
      In this file you shall specify:
-      TEPLATE_NAME - the name of html template for this site
+      TEMPLATE_NAME - the name of html template for this site
       SITE_DIR - subfolder in SITES_CFG_PATH to store site specific files
       DB_CONFIG - database configuration file
     */

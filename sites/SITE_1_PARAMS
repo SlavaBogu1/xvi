@@ -15,9 +15,9 @@
 	/**
           @section site_const SITE constants
          * this set of constants identify all important PATH and parameters to configure this particular domain (site)
-         * TEPLATE_NAME - default page layout
+         * TEMPLATE_NAME - default page layout
 	*/
-	define('TEPLATE_NAME',"w2w_template.html");
+	define('TEMPLATE_NAME',"w2w_template.html");
         /**
          * SITE_DIR - subfolder where all site-specific files are stored
          */
