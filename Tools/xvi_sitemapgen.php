@@ -61,6 +61,21 @@
     
     exit (0);
     
+    function GenerateSiteMap(){
+        $db = cXVI_db::getInstance();
+
+        $jsn = ReadJSON_description($db);
+        $sites_info = json_decode($jsn,true);
+        $sites_names = array_keys($sites_info);
+
+        $i = -1;
+        foreach($sites_info as $site){
+            $i++;
+            LoadSiteParameters($sites_names[$i], $site);
+        }
+        
+    }
+    
     function GenerateXML_Sitemap($pages){
         $res =<<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
