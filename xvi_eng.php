@@ -185,201 +185,197 @@
  * @param gen_db Generic Database interface. Provide extra functions.
 */
 class cXVI_engine{
-        private $template;
-        private $ext_modules;        
-        private $request;
-        private $pagedata;      //raw page JSON content
-        private $content;          //page content from DB in JSON format
-        private $pagetag;          //page tags from DB in JSON format
-        private $page_menu;     //page menu info from DB in JSON format
-        private $page_options;  //page options from DB in JSON format
-        private $sitedata;         // raw site JSON data
-        private $site_content;    //site content from DB in JSON format
-        private $site_menu;     //site menu descripton from DB in JSON format
-        private $gen_db;
-        private $res;
-        private $html;
-        private static $_instance = null;
-        public $generated_content;
+    private $template;
+    private $ext_modules;        
+    private $request;
+    private $pagedata;      //raw page JSON content
+    private $content;          //page content from DB in JSON format
+    private $pagetag;          //page tags from DB in JSON format
+    private $page_menu;     //page menu info from DB in JSON format
+    private $page_options;  //page options from DB in JSON format
+    private $sitedata;         // raw site JSON data
+    private $site_content;    //site content from DB in JSON format
+    private $site_menu;     //site menu descripton from DB in JSON format
+    private $gen_db;
+    private $res;
+    private $html;
+    private static $_instance = null;
+    public $generated_content;
 
-        private function __construct(){	
-                $this->html = "";
-		mysqli_report(MYSQLI_REPORT_STRICT);
-                $this->gen_db = cXVI_db::getInstance();	// Init DB interface to read configuration data
-        }		
+    private function __construct(){	
+        $this->html = "";
+        mysqli_report(MYSQLI_REPORT_STRICT);
+        $this->gen_db = cXVI_db::getInstance();	// Init DB interface to read configuration data
+    }		
 
-        private function __clone(){ }		
+    private function __clone(){ }		
 
-        public static function getInstance() {
-          if (null === self::$_instance) {
-                self::$_instance = new self();
-          }
-          return self::$_instance;
-        }		
+    public static function getInstance() {
+        if (null === self::$_instance) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }		
         
-        public function API_GetSiteContent(){
-            return $this->site_content;
-        }
-        public function API_GetSiteMenu(){
-            return $this->site_menu;
-        }
-        public function API_GetPageMenu(){
-            return $this->page_menu;
-        }
-        public function API_SiteReadJSON_array($key){
-            return $this->ReadArray_fromJSON($this->sitedata,$key);
-        }
-        public function API_PageReadJSON_array($key){
-            return $this->ReadArray_fromJSON($this->pagedata,$key);
-        }        
-        public function API_PageReadJSON_value($key){
-            return $this->ReadValue_fromJSON($this->pagedata,$key);
-        }        
-   
+    public function API_GetSiteContent(){
+        return $this->site_content;
+    }
+    public function API_GetSiteMenu(){
+        return $this->site_menu;
+    }
+    public function API_GetPageMenu(){
+        return $this->page_menu;
+    }
+    public function API_SiteReadJSON_array($key){
+        return $this->ReadArray_fromJSON($this->sitedata,$key);
+    }
+    public function API_PageReadJSON_array($key){
+        return $this->ReadArray_fromJSON($this->pagedata,$key);
+    }        
+    public function API_PageReadJSON_value($key){
+        return $this->ReadValue_fromJSON($this->pagedata,$key);
+    }        
         
-        
-        
-        
-        public function CheckIfEngineIsRunning(){
-            #$this->gen_db->setEngineRunStatus(CFG_ENGINE_RUNNING);
-            if(!$res = $this->gen_db->getEngineRunStatus()){
-                /**@todo load SITE IS TEMPORARY DISABLED template
-                 */
-                GenHTTPHeader(503,"Service temporary unavailable");
-                return false;
-            } 
-            return true;
-        }
-        public function CheckIfSiteIsRunning(){
-            #$this->gen_db->setSiteRunStatus(CFG_SITE_RUNNING);
-            if(!$res = $this->gen_db->getSiteRunStatus()){
-                /**@todo load SITE IS TEMPORARY DISABLED template
-                 */
-                GenHTTPHeader(503,"Service temporary unavailable");
-                return false;
-            }                            
-            return true;
-        }
+    public function CheckIfEngineIsRunning(){
+        #$this->gen_db->setEngineRunStatus(CFG_ENGINE_RUNNING);
+        if(!$res = $this->gen_db->getEngineRunStatus()){
+            /**@todo load SITE IS TEMPORARY DISABLED template
+                */
+            GenHTTPHeader(503,"Service temporary unavailable");
+            return false;
+        } 
+        return true;
+    }
+    public function CheckIfSiteIsRunning(){
+        #$this->gen_db->setSiteRunStatus(CFG_SITE_RUNNING);
+        if(!$res = $this->gen_db->getSiteRunStatus()){
+            /**@todo load SITE IS TEMPORARY DISABLED template
+                */
+            GenHTTPHeader(503,"Service temporary unavailable");
+            return false;
+        }                            
+        return true;
+    }
                 
-        public function GetPageAddressFromRequest(){
-            $this->request = cXVI_Request::getInstance();
-            $addr = $this->request->GetClearPath();
-            if (empty($addr)) {
-                $addr = DEFAULT_SITE_ROOT_PAGE;
-            } 
-            return $addr;
-        }
+    public function GetPageAddressFromRequest(){
+        $this->request = cXVI_Request::getInstance();
+        $addr = $this->request->GetClearPath();
+        if (empty($addr)) {
+            $addr = DEFAULT_SITE_ROOT_PAGE;
+        } 
+        return $addr;
+    }
 
-        /**
-         *  @brief - темплейт страницы может быть записан в контенте страницы или общий для сайта
-         * @param type $page_addr
-         */
-        public function GetTemplate($page_addr){
-            /**                
-              @brief TEMPLATE_NAME is the HTML template name. If it is not defined then engine will use default.
-            */
-            if ($this->page_options['template']=='default') {
-                // see xvi_clDB.php comments        
-                defined('TEMPLATE_NAME') or eval('define(\'TEMPLATE_NAME\',"default.html");');
-                /// @cond ALL
-                /// @endcond            
-                $template_name = TEMPLATE_PATH.TEMPLATE_NAME;
-            } else {
-                $template_name = TEMPLATE_PATH.$this->page_options['template'];
-            }
-            $this->template = cXVI_Template::getInstance($template_name);
+    /**
+        *  @brief - темплейт страницы может быть записан в контенте страницы или общий для сайта
+        * @param type $page_addr
+        */
+    public function GetTemplate($page_addr){
+        /**                
+            @brief TEMPLATE_NAME is the HTML template name. If it is not defined then engine will use default.
+        */
+        if ($this->page_options['template']=='default') {
+            // see xvi_clDB.php comments        
+            defined('TEMPLATE_NAME') or eval('define(\'TEMPLATE_NAME\',"default.html");');
+            /// @cond ALL
+            /// @endcond            
+            $template_name = TEMPLATE_PATH.TEMPLATE_NAME;
+        } else {
+            $template_name = TEMPLATE_PATH.$this->page_options['template'];
         }
+        $this->template = cXVI_Template::getInstance($template_name);
+    }
         
-        public function GetSiteContent(){
-            $this->sitedata = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_SITES,SITE_CONTENT_KEY),true);
-            if (!is_null($this->sitedata)) {            
-                $this->site_content = $this->ReadArray_fromJSON($this->sitedata,FIELD_SITE_CONTENT);
-                $this->site_menu = $this->ReadArray_fromJSON($this->sitedata,FIELD_MENU);
-            }
-            return true;
+    public function GetSiteContent(){
+        $this->sitedata = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_SITES,SITE_CONTENT_KEY),true);
+        if (!is_null($this->sitedata)) {            
+            $this->site_content = $this->ReadArray_fromJSON($this->sitedata,FIELD_SITE_CONTENT);
+            $this->site_menu = $this->ReadArray_fromJSON($this->sitedata,FIELD_MENU);
         }
+        return true;
+    }
         
-        /**
-         * @brief Read content from site database
-         * content is JSON list of record "PH":"content"
-         * JSON structure
-         *  "OPTIONS":["name":"value"]
-         *  "MENU":[{"item":"","submenu":"","visible":"true"}],
-         *  "CONTENT":["PH":"content"]
-         * @param type $page_addr
-         */
-        public function GetPageContent($page_addr){
-            $this->pagedata = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
-            
-            if (!is_null($this->pagedata)) {
-                $this->page_options = $this->ReadArray_fromJSON($this->pagedata,FIELD_OPTIONS);
-                $this->content = $this->ReadArray_fromJSON($this->pagedata,FIELD_CONTENT);
-                /*$this->pagetag = $this->ReadArray_fromJSON($this->pagedata,FIELD_TAGS);*/
-                $this->page_menu = $this->ReadArray_fromJSON($this->pagedata,FIELD_MENU);
-            }
-            return true;
+    /**
+        * @brief Read content from site database
+        * content is JSON list of record "PH":"content"
+        * JSON structure
+        *  "OPTIONS":["name":"value"]
+        *  "MENU":[{"item":"","submenu":"","visible":"true"}],
+        *  "CONTENT":["PH":"content"]
+        * @param type $page_addr
+        */
+    public function GetPageContent($page_addr){
+        $this->pagedata = json_decode($this->gen_db->ReadDBKey(DB_SOURCE_CONTENT,$page_addr),true);
+        
+        if (!is_null($this->pagedata)) {
+            $this->page_options = $this->ReadArray_fromJSON($this->pagedata,FIELD_OPTIONS);
+            $this->content = $this->ReadArray_fromJSON($this->pagedata,FIELD_CONTENT);
+            /*$this->pagetag = $this->ReadArray_fromJSON($this->pagedata,FIELD_TAGS);*/
+            $this->page_menu = $this->ReadArray_fromJSON($this->pagedata,FIELD_MENU);
         }
+        return true;
+    }
 
-        private function ReadValue_fromJSON($arr,$id){            
-             $val = $arr[$id];
-            if(empty($val)) {
-                $res = null;
-            } else {
-                $res = array();
-                $res = array_merge($res,$val);
-            }            
-            return $res;
-        }
-        
-        private function ReadArray_fromJSON($arr,$id){
+    private function ReadValue_fromJSON($arr,$id){            
+            $val = $arr[$id];
+        if(empty($val)) {
+            $res = null;
+        } else {
             $res = array();
-            foreach( $arr[$id] as $element){
-                $res = array_merge($res,$element);
-            }         
-            if(empty($res)) {
-                switch ($id) {
-                    case FIELD_MENU:                    
-                    case FIELD_TAGS:
-                        $res = array("show" => "false","something" => "else");
-                        break;
-                    case FIELD_CONTENT:
-                        $res = array("PH_DEMO" => "This page is empty");
-                        break;
-                    default:
-                        $res = null;
-                }
+            $res = array_merge($res,$val);
+        }            
+        return $res;
+    }
+    
+    private function ReadArray_fromJSON($arr,$id){
+        $res = array();
+        foreach( $arr[$id] as $element){
+            $res = array_merge($res,$element);
+        }         
+        if(empty($res)) {
+            switch ($id) {
+                case FIELD_MENU:                    
+                case FIELD_TAGS:
+                    $res = array("show" => "false","something" => "else");
+                    break;
+                case FIELD_CONTENT:
+                    $res = array("PH_DEMO" => "This page is empty");
+                    break;
+                default:
+                    $res = null;
             }
-            return $res;
         }
-        
-        public function UpdateTemplate(){
-            $res = $this->template->getHTML_Template();
+        return $res;
+    }
+    
+    public function UpdateTemplate(){
+        $res = $this->template->getHTML_Template();
 
-            /** @brief Processing of PH templates from the DB. 
-             * processing is in order how PH stored in the DB
-             * order is important.
-             * If PH defined befor it is used - it will be ignored (replacement by space)
-             */
-            if(!is_null($this->content)){
-                foreach($this->content as $ph=>$replace_str){
-                    $res = str_replace(OPEN_PATTERN_SIGN.$ph.CLOSE_PATTERN_SIGN, $replace_str, $res);
-                }
+        /** @brief Processing of PH templates from the DB. 
+            * processing is in order how PH stored in the DB
+            * order is important.
+            * If PH defined befor it is used - it will be ignored (replacement by space)
+            */
+        if(!is_null($this->content)){
+            foreach($this->content as $ph=>$replace_str){
+                $res = str_replace(OPEN_PATTERN_SIGN.$ph.CLOSE_PATTERN_SIGN, $replace_str, $res);
             }
-            
-            $res = $this->ProcessPlaceholders($res); //call list of external modules to update rest of PH 
-            
-            $this->html = RemovePlaceholders($res); //if there are some PH left - remove them
-            
         }
         
-        public function ProcessPlaceholders($html_template){
-            $this->ext_modules = cXVI_Modules::getInstance();  
-            return $this->ext_modules->ReplacePatterns($html_template);
-        }
+        $res = $this->ProcessPlaceholders($res); //call list of external modules to update rest of PH 
         
-        public function Show(){
-            echo $this->html;
-        }
+        $this->html = RemovePlaceholders($res); //if there are some PH left - remove them
+        
+    }
+    
+    public function ProcessPlaceholders($html_template){
+        $this->ext_modules = cXVI_Modules::getInstance();  
+        return $this->ext_modules->ReplacePatterns($html_template);
+    }
+    
+    public function Show(){
+        echo $this->html;
+    }
         
 }
 ?>
