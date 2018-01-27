@@ -23,6 +23,12 @@ class cXVI_Template {
     @brief Load HTML template from file
     */
     protected function __construct($name){
+         /** @todo нужно указать реальный путь работающего скрипта
+         *         $path = realpath(dirname(__FILE__));
+                    $name = $path."/".$name;
+
+         */
+
         $res = file_get_contents ($name);
         if($res){
 		self::$html_tmplt = $res; //load template if exist

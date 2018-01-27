@@ -53,6 +53,12 @@ class cXVI_Modules {
         defined('PATTERN_PARSERS') or eval('define(\'PATTERN_PARSERS\',_XVI."modules/");');
         /// @cond ALL
         /// @endcond
+        
+        /** @todo нужно указать реальный путь работающего скрипта
+         *         $path = realpath(dirname(__FILE__));
+                    $name = $path."/".PATTERN_PARSERS;
+
+         */
         $module_folder = opendir(PATTERN_PARSERS); // open folder PATTERN_PARSERS 
 
         /** @todo because engine is using module classes (same as module file names) 

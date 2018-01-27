@@ -25,7 +25,7 @@
         /**
          * PUBLIC_HTML - path to site html folder
          */
-	define('PUBLIC_HTML',"what_to_watch");
+	define('PUBLIC_HTML',"what_to_watch/");
 
         /**
          * DB_CONFIG - configuration file with DB table names and access parameters

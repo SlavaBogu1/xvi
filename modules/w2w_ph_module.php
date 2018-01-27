@@ -41,6 +41,7 @@ EOF;
                     return self::PH_SiteFooter();
                 case 'CONTENT_MAIN_XLINKS':
                     return self::PH_SiteCrossLinks();
+                    //be aware to gnerate cross links page must have TAGS listed "PAGE_TAGS":["",""],
                 case 'FAVICON':
                     return self::PH_Favicon();
                 case 'PAGE_MENU':
@@ -93,17 +94,17 @@ EOF;
         }
 
         private function PH_CSS(){
-            return "<link rel=\"stylesheet\" href=\"/".PUBLIC_HTML."/css/e_style.css\" type=\"text/css\" media=\"screen\">";
+            return "<link rel=\"stylesheet\" href=\"/".PUBLIC_HTML."css/e_style.css\" type=\"text/css\" media=\"screen\">";
         }
 
          private function PH_JS(){
-            $res = "<script src=\"/".PUBLIC_HTML."/js/jquery-2.1.3.min.js\"></script>";
-            $res .="<script src=\"/".PUBLIC_HTML."/js/readmore.min.js\"></script>";
+            $res = "<script src=\"/".PUBLIC_HTML."js/jquery-2.1.3.min.js\"></script>";
+            $res .="<script src=\"/".PUBLIC_HTML."js/readmore.min.js\"></script>";
             return $res;
         }
  
         private function PH_Favicon(){
-            return "<link rel=\"icon\" type=\"image/ico\" href=\"/".PUBLIC_HTML."/favicon.ico\" />";
+            return "<link rel=\"icon\" type=\"image/ico\" href=\"/".PUBLIC_HTML."favicon.ico\" />";
         }
 
      private function PH_SiteHeader(){
@@ -146,7 +147,8 @@ EOF;
                 } 
             }
             if ($xlink_exist) {
-                $res .= "<li><a href=\"".$path.$xlink_names[$i]."\">".$xlink[0]["name"]."</a></li>";
+                //$res .= "<li><a href=\"".$path.$xlink_names[$i]."\">".$xlink[0]["name"]."</a></li>";
+                $res .= "<li><a href=\"".$xlink_names[$i]."\">".$xlink[0]["name"]."</a></li>";
             }
         }
         $res .= "</ul>";

@@ -13,6 +13,23 @@
         .button {float: right; cursor:pointer;position: relative;margin-right: 20px;}
         footer { clear: left;}
         </style>
+        <script>
+function showHint(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "../../engine/Tools/editor_ajax.php?q=" + str, true);
+        xmlhttp.send();
+    }
+}
+</script>
     </head>
     <body>
         <header  id="header">
@@ -22,6 +39,12 @@
         <div id="main">
             <div id="content">
                 <div id="center"><p>Page content</p>
+                    
+                    <p><b>Start typing a name in the input field below:</b></p>
+                    <form> 
+                    First name: <input type="text" onkeyup="showHint(this.value)">
+                    </form>
+                    <p>Suggestions: <span id="txtHint"></span></p>
                     
                     <form method="POST" action="xvi_update.php">
                     <textarea id="txtcomment" name="txtcomment" maxlength="40000"></textarea><br /><br />
